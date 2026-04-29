@@ -18,6 +18,9 @@ public class Ma {
     public void eliminarCarta (int index) {
         ma.remove(index);
     }
-    //Llistar ma??
+
+    public ArrayList<Carta> getMa () {
+        return this.ma;
+    }
 
 }
