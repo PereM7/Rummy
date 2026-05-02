@@ -40,10 +40,12 @@ public class Tauler {
         ArrayList<Carta> grup = ma.getMa();
         int nombreAnterior = 0 ;
         for (int i = 1; i < ma.getNombreCartes(); i++) {
-            nombreAnterior = grup.get(i - 1).getNombre();
+            if (grup.get(i).getPal() != Pal.Comodi) {
+                nombreAnterior = grup.get(i - 1).getNombre();
 
-            if (nombreAnterior != grup.get(i).getNombre()) {
-                return false;
+                if (nombreAnterior != grup.get(i).getNombre()) {
+                    return false;
+                }
             }
         }
         return true;
@@ -54,15 +56,16 @@ public class Tauler {
         int nombreAnterior = 0;
         Pal palAnterior;
         for (int i = 1; i < ma.getNombreCartes(); i++) {
-            nombreAnterior = grup.get(i - 1).getNombre();
-            palAnterior = grup.get(i - 1).getPal();
+            if (grup.get(i).getPal() != Pal.Comodi) {
+                nombreAnterior = grup.get(i - 1).getNombre();
+                palAnterior = grup.get(i - 1).getPal();
 
-            if (nombreAnterior <= grup.get(i).getNombre() || palAnterior != grup.get(i).getPal()) {
-                return false;
+                if (nombreAnterior <= grup.get(i).getNombre() || palAnterior != grup.get(i).getPal()) {
+                    return false;
+                }
             }
         }
         return true;
     }
-
 
 }

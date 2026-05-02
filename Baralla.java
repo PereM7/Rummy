@@ -32,7 +32,7 @@ public class Baralla {
         }
     }
 
-    private void mesclarBaralla () {
+    public void mesclarBaralla () {
         ArrayList<Carta> barallaAleatori = new ArrayList<Carta>();
 
         while(!baralla.isEmpty()) {
@@ -43,6 +43,12 @@ public class Baralla {
         }
 
         setBaralla(barallaAleatori);
+    }
+
+    public Carta extreureCarta () {
+        Carta c = baralla.getLast();
+        baralla.remove(baralla.getLast());
+        return c;
     }
 
     public ArrayList<Carta> getBarralla () {

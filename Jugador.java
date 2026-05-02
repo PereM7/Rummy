@@ -21,6 +21,9 @@ public class Jugador {
         return this.puntuacio;
     }
 
+    public void setMa (Ma ma) {
+        this.ma = ma;
+    }
     public Ma getMa () {
         return this.ma;
     }
