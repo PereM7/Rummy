@@ -12,6 +12,9 @@ public class Ma {
         return this.ma.size();
     }
 
+    public Carta getCarta(int index) {
+        return this.ma.get(index);
+    }
     public void afegirCarta (Carta c) {
         ma.add(c);
     }
