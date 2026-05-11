@@ -48,6 +48,7 @@ public class Tauler {
         return false;
     }
 
+    // No funciona correctament, a l'hora de comprovar una ma que te comodins falla perque no pot comparar els nombres.
     private boolean sonNombreIguals (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         int nombreAnterior = 0 ;

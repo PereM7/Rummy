@@ -49,18 +49,17 @@ public class Joc {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         Ma maCombinada = new Ma();
         int index;
-        int contador = 1;
         do {
-            index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes());
+            index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
             if (index != -1) {
                 maCombinada.afegirCarta(maJugador.getCarta(index));
-            } else { contador++; }
+            }
 
-            if (contador == 4) {
+            if (maCombinada.getNombreCartes() == 4) {
                 System.out.println("Maxim cartes seleccionades.");
                 break;
             }
-        }while(index == -1);
+        }while(index != -1);
     return maCombinada;
     }
 
@@ -86,9 +85,10 @@ public class Joc {
             }
         }
         else if (maCombinada.getNombreCartes() != 0) {
-            tauler.afegirGrup(maCombinada);
-            eliminarCartesMaJugador(maCombinada);
-            return true;
+            if (tauler.afegirGrup(maCombinada)) {
+                eliminarCartesMaJugador(maCombinada);
+                return true;
+            }
         }
         return false;
     }
@@ -96,20 +96,29 @@ public class Joc {
     private void tocaTorn () {
         Sortides.imprimirTorn(torn, players);
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
-        if (torn != 0 && Llegir.agafarDescarteJugador()) {
-            maJugador.afegirCarta(anteriorDescarte);
+        if (Llegir.agafarDescarteJugador()) {
+            if (anteriorDescarte != null) {
+                maJugador.afegirCarta(anteriorDescarte);
+            } else {
+                Sortides.errorCartaDescarteBuida();
+                maJugador.afegirCarta(baralla.extreureCarta());
+            }
         } else {
             maJugador.afegirCarta(baralla.extreureCarta());
         }
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
-        while(Llegir.volCombinar()) {
+        while(Llegir.volCombinar() && !haGuanyat()) {
             if(!inserirMaTauler()) {
                 Sortides.errorAlCombinar();
             }else { Sortides.combinacioCompletada(); }
         }
-        descartarCarta();
+        Sortides.imprimirMa(maJugador);
+        if(!haGuanyat()){
+            descartarCarta();
+        }
     }
 
     private boolean haGuanyat() {

@@ -25,6 +25,7 @@ public class Sortides {
         System.out.println("Carta descarte: " + (descarte != null ? descarte.toString() : "Cap"));
         System.out.print("Ma actual: ");
         imprimirMa(ma);
+        System.out.println();
     }
 
     public static void imprimirTaulerPunts (Jugador[] players) {
@@ -40,6 +41,11 @@ public class Sortides {
 
     public static void combinacioCompletada() {
         System.out.println("Combinació acceptada i afegida al tauler.");
+    }
+
+    public static void errorCartaDescarteBuida () {
+        System.out.println("Error, no hi ha carta descartada.");
+        System.out.println("Agafant carta de la baralla...");
     }
 
     public static void imprimirGuanyadorMa (Jugador jug, int puntsTotals) {
