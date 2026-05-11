@@ -26,4 +26,11 @@ public class Ma {
         return this.ma;
     }
 
+    public String toStirng() {
+        String cadena = "";
+        for (Carta c: ma) {
+            cadena = cadena + c.toString() + ",";
+        }
+        return cadena;
+    }
 }

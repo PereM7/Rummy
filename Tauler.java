@@ -83,4 +83,12 @@ public class Tauler {
     public int getNombreGrups () {
         return this.grupsCartes.size();
     }
+
+    public String toString() {
+        String cadena = "";
+        for(Ma m: grupsCartes) {
+            cadena = cadena + m.toString() + ",\n";
+        }
+        return cadena;
+    }
 }
