@@ -26,7 +26,15 @@ public class Ma {
         return this.ma;
     }
 
-    public String toStirng() {
+    public int getPunts () {
+        int punts = 0;
+        for (Carta c: ma) {
+            punts+= c.getNombre();
+        }
+        return punts;
+    }
+
+    public String toString() {
         String cadena = "";
         for (Carta c: ma) {
             cadena = cadena + c.toString() + ",";

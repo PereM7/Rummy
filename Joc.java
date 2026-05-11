@@ -65,15 +65,30 @@ public class Joc {
     return maCombinada;
     }
 
+    private void eliminarCartesMaJugador(Ma ma) {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+
+        for (int i = 0; i < ma.getNombreCartes(); i++) {
+            for (int j = 0; j < maJugador.getNombreCartes(); j++) {
+                if (maJugador.getCarta(j).equals(ma.getCarta(i))) {
+                    maJugador.eliminarCarta(j);
+                }
+            }
+        }
+    }
+
     private boolean inserirMaTauler () {
         Ma maCombinada = cartesCombinar();
         if (maCombinada.getNombreCartes() == 1) {
             int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
-            tauler.afegirCarta(maCombinada.getCarta(0), indexGrup);
-            return true;
+            if (tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){
+                eliminarCartesMaJugador(maCombinada);
+                return true;
+            }
         }
         else if (maCombinada.getNombreCartes() != 0) {
             tauler.afegirGrup(maCombinada);
+            eliminarCartesMaJugador(maCombinada);
             return true;
         }
         return false;
@@ -97,4 +112,17 @@ public class Joc {
         descartarCarta();
     }
 
+    private boolean haGuanyat() {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        return maJugador.getNombreCartes() == 0;
+    }
+
+    private int recomptePuntsGuanyador() {
+        int puntsTotals = 0;
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            Ma maJugador = players[(torn + i) % NUM_JUGADORS].getMa();
+            puntsTotals += maJugador.getPunts();
+        }
+        return puntsTotals;
+    }
 }
