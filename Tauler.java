@@ -16,6 +16,18 @@ public class Tauler {
         return false;
     }
 
+    public boolean afegirCarta (Carta carta, int numGrup){
+        Ma novaMa = grupsCartes.get(numGrup);
+        novaMa.afegirCarta(carta);
+
+        if(esUnGrupCorrecte(novaMa)){
+            this.grupsCartes.remove(numGrup);
+            this.grupsCartes.add(novaMa);
+            return true;
+        }
+        return false;
+    }
+
     private Ma ordenarCartesMa (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         Ma maOrdenada = new Ma();
@@ -68,4 +80,7 @@ public class Tauler {
         return true;
     }
 
+    public int getNombreGrups () {
+        return this.grupsCartes.size();
+    }
 }

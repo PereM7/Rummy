@@ -6,6 +6,7 @@ public class Joc {
     private Jugador[] players;
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
+    private Tauler tauler = new Tauler();
     private int torn = 0;
 
     public Joc (int numJugadors) {
@@ -45,7 +46,38 @@ public class Joc {
         maJugador.eliminarCarta(indexDescarte);
     }
 
-    // Mètode per crear ma per introduir al tauler
+    private Ma cartesCombinar () {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma maCombinada = new Ma();
+        int index;
+        int contador = 1;
+        do {
+            index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes());
+            if (index != -1) {
+                maCombinada.afegirCarta(maJugador.getCarta(index));
+            } else { contador++; }
+
+            if (contador == 4) {
+                System.out.println("Maxim cartes seleccionades.");
+                break;
+            }
+        }while(index == -1);
+    return maCombinada;
+    }
+
+    private boolean inserirMaTauler () {
+        Ma maCombinada = cartesCombinar();
+        if (maCombinada.getNombreCartes() == 1) {
+            int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
+            tauler.afegirCarta(maCombinada.getCarta(0), indexGrup);
+            return true;
+        }
+        else if (maCombinada.getNombreCartes() != 0) {
+            tauler.afegirGrup(maCombinada);
+            return true;
+        }
+        return false;
+    }
 
     private void tocaTorn (int torn) {
         System.out.println("Torn del jugador " + players[torn % NUM_JUGADORS]);
@@ -57,9 +89,12 @@ public class Joc {
             maJugador.afegirCarta(baralla.extreureCarta());
         }
 
-        if (Llegir.volCombinar()) {
-            // Metode introduir a tauler
+        while(Llegir.volCombinar()) {
+            if(!inserirMaTauler()) {
+                System.out.println("Error, no s'ha seleccionat cap carta.");
+            }
         }
+        descartarCarta();
     }
 
 }

@@ -77,14 +77,27 @@ public class Llegir {
     public static int demanarCartaCombinar (int tamany) {
         int index = 0;
         do {
-            System.out.println("Insereix l'index de la carta a combinar (0-"+tamany+"):" );
+            System.out.println("Insereix l'index de la carta a combinar (0-"+tamany+"), insereix -1 si no vols combinar més:" );
+            index = sn.nextInt();
+
+            if (index != -1 && index < 0 || index > tamany) {
+                System.out.println("Error, el nmbre ha de ser entre 0 a "+tamany+" incluits o -1.");
+            }
+        }while ( index != -1 && index < 0 || index > tamany );
+
+        return index;
+    }
+
+    public static int demanarIndexGrupInserir (int tamany) {
+        int index = 0;
+        do {
+            System.out.println("Insereix l'index del grup on vols afegir la carta(0-"+tamany+"):" );
             index = sn.nextInt();
 
             if (index < 0 || index > tamany) {
                 System.out.println("Error, el nmbre ha de ser entre 0 a "+tamany+" incluits.");
             }
-        }while (index < 0 || index > tamany);
-
+        } while(index < 0 || index > tamany);
         return index;
     }
 
