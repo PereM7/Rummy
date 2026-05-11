@@ -25,5 +25,15 @@ public class Carta {
             return "["+PAL.getDescripcio()+"]";
         }
     }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof Carta) {
+            Carta c = (Carta) obj;
+            if (c.getNombre() == this.NOMBRE && c.getPal() == this.PAL) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
