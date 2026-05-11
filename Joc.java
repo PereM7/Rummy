@@ -9,10 +9,9 @@ public class Joc {
     private Tauler tauler = new Tauler();
     private int torn = 0;
 
-    public Joc (int numJugadors) {
-        this.NUM_JUGADORS = numJugadors;
+    public Joc () {
+        this.NUM_JUGADORS = Llegir.demanarNombreJugadors();
         players = new Jugador[NUM_JUGADORS];
-        baralla.mesclarBaralla();
     }
 
     private void iniciarJugadors () {
@@ -25,7 +24,7 @@ public class Joc {
         int nombreCartesMaInicial = 14;
         Ma maExtreta = new Ma();
 
-        for (int i = 0; i < nombreCartesMaInicial; i++) {
+        for (int i = 1; i < nombreCartesMaInicial; i++) {
             maExtreta.afegirCarta(baralla.extreureCarta());
         }
         return maExtreta;
@@ -94,20 +93,21 @@ public class Joc {
         return false;
     }
 
-    private void tocaTorn (int torn) {
-        System.out.println("Torn del jugador " + players[torn % NUM_JUGADORS]);
+    private void tocaTorn () {
+        Sortides.imprimirTorn(torn, players);
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
 
-        if (torn != 1 && Llegir.agafarDescarteJugador()) {
+        if (torn != 0 && Llegir.agafarDescarteJugador()) {
             maJugador.afegirCarta(anteriorDescarte);
         } else {
             maJugador.afegirCarta(baralla.extreureCarta());
         }
+        Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         while(Llegir.volCombinar()) {
             if(!inserirMaTauler()) {
-                System.out.println("Error, no s'ha seleccionat cap carta.");
-            }
+                Sortides.errorAlCombinar();
+            }else { Sortides.combinacioCompletada(); }
         }
         descartarCarta();
     }
@@ -124,5 +124,49 @@ public class Joc {
             puntsTotals += maJugador.getPunts();
         }
         return puntsTotals;
+    }
+
+    private void jugarMa () {
+        baralla.mesclarBaralla();
+        repartirMaInicialJugadors();
+
+        while (!haGuanyat()) {
+            tocaTorn();
+            if (haGuanyat()) {
+                int punts = recomptePuntsGuanyador();
+                players[torn % NUM_JUGADORS].sumarPuntuacio(punts);
+                Sortides.imprimirGuanyadorMa(players[torn % NUM_JUGADORS], punts);
+                break;
+            }
+            torn++;
+        }
+        Sortides.imprimirTaulerPunts(players);
+    }
+
+    public void jugarPartida () {
+        iniciarJugadors();
+
+        while (!hiHaAlgu101()) {
+            jugarMa();
+            reiniciarPartidaMa();
+        }
+        Sortides.imprimirGuanyadorTotal(players[torn % NUM_JUGADORS]);
+    }
+
+    private boolean hiHaAlgu101() {
+        for (Jugador j : players) {
+            if (j.getPuntuacio() >= 101) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void reiniciarPartidaMa () {
+        this.torn = 0;
+        this.baralla = new Baralla();
+        baralla.mesclarBaralla();
+        this.tauler = new Tauler();
+        this.anteriorDescarte = null;
     }
 }

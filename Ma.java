@@ -36,8 +36,13 @@ public class Ma {
 
     public String toString() {
         String cadena = "";
+        int contador = 0;
         for (Carta c: ma) {
-            cadena = cadena + c.toString() + ",";
+            cadena = cadena + contador + ":" + c.toString();
+            if (!c.equals(ma.getLast())) {
+                cadena = cadena + ",";
+            }
+            contador++;
         }
         return cadena;
     }

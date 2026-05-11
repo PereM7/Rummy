@@ -22,11 +22,11 @@ public class Baralla {
     private void iniciarPal (Pal pal) {
         int nombreCartes = 13;
         if (pal == Pal.Comodi) {
-            nombreCartes = 2;
+            nombreCartes = 1;
         }
 
         for (int x = 2; x > 0; x--) {
-            for (int i = 1; i < nombreCartes; i++) {
+            for (int i = 1; i <= nombreCartes; i++) {
                 this.baralla.add(new Carta(i, pal));
             }
         }

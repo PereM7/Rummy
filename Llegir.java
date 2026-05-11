@@ -7,6 +7,21 @@ public class Llegir {
 
     public Llegir () {}
 
+    public static int demanarNombreJugadors() {
+        int nombre = 0;
+        do {
+            System.out.println("Quants jugadors hi haurà? (2-4)");
+            nombre = sn.nextInt();
+            sn.nextLine();
+
+            if (nombre < 2 || nombre > 4) {
+                System.out.println("Error, mínim han de ser 2 jugadors i màxim 4.");
+            }
+        } while (nombre < 2 || nombre > 4);
+
+        return nombre;
+    }
+
     public static String demanarNom () {
         String nom = "";
         do {
@@ -21,6 +36,7 @@ public class Llegir {
         return nom;
     }
 
+    //eliminar
     public static boolean volAgafarCarta () {
         String valor = "";
         do {
@@ -52,6 +68,7 @@ public class Llegir {
         do {
             System.out.println("Insereix l'index de la carta a descartar (0-"+tamany+"):" );
             index = sn.nextInt();
+            sn.nextLine();
 
             if (index < 0 || index > tamany) {
                 System.out.println("Error, el nmbre ha de ser entre 0 a "+tamany+" incluits.");
@@ -79,6 +96,7 @@ public class Llegir {
         do {
             System.out.println("Insereix l'index de la carta a combinar (0-"+tamany+"), insereix -1 si no vols combinar més:" );
             index = sn.nextInt();
+            sn.nextLine();
 
             if (index != -1 && index < 0 || index > tamany) {
                 System.out.println("Error, el nmbre ha de ser entre 0 a "+tamany+" incluits o -1.");
@@ -93,6 +111,7 @@ public class Llegir {
         do {
             System.out.println("Insereix l'index del grup on vols afegir la carta(0-"+tamany+"):" );
             index = sn.nextInt();
+            sn.nextLine();
 
             if (index < 0 || index > tamany) {
                 System.out.println("Error, el nmbre ha de ser entre 0 a "+tamany+" incluits.");
