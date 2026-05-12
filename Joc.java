@@ -48,6 +48,7 @@ public class Joc {
     private Ma cartesCombinar () {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         Ma maCombinada = new Ma();
+        int cartesMaxim = 4;
         int index;
         do {
             index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
@@ -55,10 +56,11 @@ public class Joc {
                 maCombinada.afegirCarta(maJugador.getCarta(index));
             }
 
-            if (maCombinada.getNombreCartes() == 4) {
+            if (maCombinada.getNombreCartes() == cartesMaxim) {
                 System.out.println("Maxim cartes seleccionades.");
                 break;
             }
+
         }while(index != -1);
     return maCombinada;
     }
@@ -66,10 +68,11 @@ public class Joc {
     private void eliminarCartesMaJugador(Ma ma) {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
 
-        for (int i = ma.getNombreCartes() - 1; i > 0; i--) {
+        for (int i = ma.getNombreCartes() - 1; i >= 0; i--) {
             for (int j = 0; j < maJugador.getNombreCartes(); j++) {
                 if (maJugador.getCarta(j).equals(ma.getCarta(i))) {
                     maJugador.eliminarCarta(j);
+                    break;
                 }
             }
         }

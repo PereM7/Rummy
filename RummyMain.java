@@ -5,5 +5,10 @@ public class RummyMain {
         Joc joc = new Joc();
 
         joc.jugarPartida();
+
+        //Rummy:
+        // --L'AS no pot fer escala després del rei.
+        // --No es tocaria poder elegir la mateixa carta a l'hora de combinar.
+
     }
 }
