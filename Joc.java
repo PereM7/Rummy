@@ -174,7 +174,6 @@ public class Joc {
     private void reiniciarPartidaMa () {
         this.torn = 0;
         this.baralla = new Baralla();
-        baralla.mesclarBaralla();
         this.tauler = new Tauler();
         this.anteriorDescarte = null;
     }

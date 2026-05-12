@@ -1,6 +1,7 @@
 package Principi.Reptes.Rummy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Baralla {
 
@@ -9,6 +10,7 @@ public class Baralla {
 
     public Baralla() {
         iniciarBaralla();
+        mesclarBaralla();
     }
 
     private void iniciarBaralla () {
@@ -32,9 +34,13 @@ public class Baralla {
         }
     }
 
-    public void mesclarBaralla () {
-        ArrayList<Carta> barallaAleatori = new ArrayList<Carta>();
 
+    //shuffle
+    public void mesclarBaralla () {
+        //ArrayList<Carta> barallaAleatori = new ArrayList<Carta>();
+
+        Collections.shuffle(baralla);
+/*
         while(!baralla.isEmpty()) {
             int numAleatori = (int) (Math.random() * baralla.size());
 
@@ -43,11 +49,13 @@ public class Baralla {
         }
 
         setBaralla(barallaAleatori);
+
+ */
     }
 
     public Carta extreureCarta () {
         Carta c = baralla.getLast();
-        baralla.remove(baralla.getLast());
+        baralla.remove(baralla.size() - 1);
         return c;
     }
 
