@@ -1,26 +1,21 @@
 package Principi.Reptes.Rummy;
 
-public class Joc {
+public class RummyBasic extends JocBase{
 
-    private final int NUM_JUGADORS;
-    private Jugador[] players;
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
-    private Tauler tauler = new Tauler();
-    private int torn = 0;
+    private Tauler tauler;
 
-    public Joc () {
-        this.NUM_JUGADORS = Llegir.demanarNombreJugadors();
-        players = new Jugador[NUM_JUGADORS];
+    public RummyBasic() {
+        super();
+        iniciar();
     }
 
-    private void iniciarJugadors () {
-        for (int i = 0; i < NUM_JUGADORS; i++) {
-            players[i] = new Jugador(Llegir.demanarNom());
-        }
+    protected void iniciar() {
+        tauler = new Tauler(new ValidacioEstandar());
     }
 
-    private Ma extreureMa () {
+    protected Ma extreureMa () {
         int nombreCartesMaInicial = 14;
         Ma maExtreta = new Ma();
 
@@ -28,12 +23,6 @@ public class Joc {
             maExtreta.afegirCarta(baralla.extreureCarta());
         }
         return maExtreta;
-    }
-
-    private void repartirMaInicialJugadors () {
-        for (int i = 0; i < NUM_JUGADORS; i++) {
-            players[i].setMa(extreureMa());
-        }
     }
 
     private void descartarCarta () {
@@ -96,7 +85,7 @@ public class Joc {
         return false;
     }
 
-    private void tocaTorn () {
+    protected void tocaTorn () {
         Sortides.imprimirTorn(torn, players);
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
@@ -124,7 +113,7 @@ public class Joc {
         }
     }
 
-    private boolean haGuanyat() {
+    protected boolean haGuanyat() {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         return maJugador.getNombreCartes() == 0;
     }
@@ -189,7 +178,7 @@ public class Joc {
     private void reiniciarPartidaMa () {
         this.torn = 0;
         this.baralla = new Baralla();
-        this.tauler = new Tauler();
+        this.tauler = new Tauler(new ValidacioEstandar());
         this.anteriorDescarte = null;
     }
 }

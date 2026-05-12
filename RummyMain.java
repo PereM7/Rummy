@@ -2,9 +2,9 @@ package Principi.Reptes.Rummy;
 
 public class RummyMain {
     public static void main(String[] args) {
-        Joc joc = new Joc();
+        RummyBasic basic = new RummyBasic();
 
-        joc.jugarPartida();
+        basic.jugarPartida();
 
         //Rummy:
         // --L'AS no pot fer escala després del rei.
