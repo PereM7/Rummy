@@ -36,20 +36,6 @@ public class Llegir {
         return nom;
     }
 
-    //eliminar
-    public static boolean volAgafarCarta () {
-        String valor = "";
-        do {
-            System.out.println("Vols agafar carta?(S/N)");
-            valor = sn.nextLine().toLowerCase();
-
-            if (!valor.equals("s") && !valor.equals("n")) {
-                System.out.println("Error, has d'introduir S o N.");
-            }
-        }while (!valor.equals("s") && !valor.equals("n"));
-
-        return valor.equals("s");
-    }
     public static boolean agafarDescarteJugador () {
         String valor = "";
         do {

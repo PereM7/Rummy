@@ -34,23 +34,8 @@ public class Baralla {
         }
     }
 
-
-    //shuffle
     public void mesclarBaralla () {
-        //ArrayList<Carta> barallaAleatori = new ArrayList<Carta>();
-
         Collections.shuffle(baralla);
-/*
-        while(!baralla.isEmpty()) {
-            int numAleatori = (int) (Math.random() * baralla.size());
-
-            barallaAleatori.add(baralla.get(numAleatori));
-            baralla.remove(numAleatori);
-        }
-
-        setBaralla(barallaAleatori);
-
- */
     }
 
     public Carta extreureCarta () {

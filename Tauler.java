@@ -25,14 +25,22 @@ public class Tauler {
             this.grupsCartes.add(novaMa);
             return true;
         }
-        return false;
+        else {
+            novaMa.eliminarCarta(novaMa.getNombreCartes() - 1);
+            return false;
+        }
     }
 
     private Ma ordenarCartesMa (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         Ma maOrdenada = new Ma();
 
-        grup.sort((c1, c2) -> c2.getNombre() - c1.getNombre());
+        grup.sort((c1, c2) -> {
+            if (c1.getPal() == Pal.Comodi) return 1;
+            if (c2.getPal() == Pal.Comodi) return -1;
+
+            return Integer.compare(c2.getNombre(), c1.getNombre());
+        });
         for (Carta c : grup) {
             maOrdenada.afegirCarta(c);
         }
@@ -48,15 +56,19 @@ public class Tauler {
         return false;
     }
 
-    // No funciona correctament, a l'hora de comprovar una ma que te comodins falla perque no pot comparar els nombres.
     private boolean sonNombreIguals (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
-        int nombreAnterior = 0 ;
+        int nombreFix = -1;
+        for (Carta c: grup) {
+            if (c.getPal() != Pal.Comodi) {
+                nombreFix = c.getNombre();
+                break;
+            }
+        }
+        if (nombreFix == -1) { return false; }
         for (int i = 1; i < ma.getNombreCartes(); i++) {
             if (grup.get(i).getPal() != Pal.Comodi) {
-                nombreAnterior = grup.get(i - 1).getNombre();
-
-                if (nombreAnterior != grup.get(i).getNombre()) {
+                if (nombreFix != grup.get(i).getNombre()) {
                     return false;
                 }
             }
@@ -66,19 +78,31 @@ public class Tauler {
 
     private boolean sonEscala (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
-        int nombreAnterior = 0;
-        Pal palAnterior;
-        for (int i = 1; i < ma.getNombreCartes(); i++) {
-            if (grup.get(i).getPal() != Pal.Comodi) {
-                nombreAnterior = grup.get(i - 1).getNombre();
-                palAnterior = grup.get(i - 1).getPal();
+        int numComodins = 0;
+        int numBuits = 0;
+        Ma cartesReals = new Ma();
+        Pal palRef = null;
+        int nombreAnterior = -1;
 
-                if (nombreAnterior <= grup.get(i).getNombre() || palAnterior != grup.get(i).getPal()) {
-                    return false;
-                }
-            }
+        for (Carta c: grup) {
+            if (c.getPal() != Pal.Comodi) {
+                cartesReals.afegirCarta(c);
+            } else { numComodins++; }
         }
-        return true;
+        if (cartesReals.getNombreCartes() == 0) { return false; }
+        palRef = cartesReals.getCarta(0).getPal();
+        for (int i = 1; i < cartesReals.getNombreCartes(); i++) {
+            nombreAnterior = cartesReals.getCarta(i - 1).getNombre();
+            int nombreActual = cartesReals.getCarta(i).getNombre();
+            int diferencia = nombreAnterior - nombreActual;
+
+            if (cartesReals.getCarta(i).getPal() != palRef) { return false; }
+            if (diferencia > 1) {
+                numBuits += diferencia - 1;
+            }
+            else if (diferencia <= 0) { return false; };
+        }
+        return numBuits <= numComodins;
     }
 
     public int getNombreGrups () {

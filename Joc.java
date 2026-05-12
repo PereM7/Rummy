@@ -66,7 +66,7 @@ public class Joc {
     private void eliminarCartesMaJugador(Ma ma) {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
 
-        for (int i = 0; i < ma.getNombreCartes(); i++) {
+        for (int i = ma.getNombreCartes() - 1; i > 0; i--) {
             for (int j = 0; j < maJugador.getNombreCartes(); j++) {
                 if (maJugador.getCarta(j).equals(ma.getCarta(i))) {
                     maJugador.eliminarCarta(j);
@@ -159,7 +159,19 @@ public class Joc {
             jugarMa();
             reiniciarPartidaMa();
         }
-        Sortides.imprimirGuanyadorTotal(players[torn % NUM_JUGADORS]);
+        Sortides.imprimirGuanyadorTotal(jugadorMesPunts());
+    }
+
+    private Jugador jugadorMesPunts() {
+        Jugador jugMesPunts = null;
+        int puntuacio = 0;
+        for (Jugador j: players) {
+            if (j.getPuntuacio() > puntuacio) {
+                jugMesPunts = j;
+                puntuacio = j.getPuntuacio();
+            }
+        }
+        return jugMesPunts;
     }
 
     private boolean hiHaAlgu101() {
