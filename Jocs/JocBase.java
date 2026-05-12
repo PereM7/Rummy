@@ -1,4 +1,8 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.Jocs;
+
+import Principi.Reptes.Rummy.ES.Llegir;
+import Principi.Reptes.Rummy.Jugador;
+import Principi.Reptes.Rummy.Ma;
 
 public abstract class JocBase {
 
@@ -16,12 +20,14 @@ public abstract class JocBase {
             players[i] = new Jugador(Llegir.demanarNom());
         }
     }
+
     protected abstract Ma extreureMa ();
     protected void repartirMaInicialJugadors () {
         for (int i = 0; i < NUM_JUGADORS; i++) {
             players[i].setMa(extreureMa());
         }
     }
+
     protected abstract void iniciar();
     protected abstract void tocaTorn ();
     protected abstract boolean haGuanyat();

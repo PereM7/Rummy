@@ -1,6 +1,11 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.Jocs;
 
-public class RummyBasic extends JocBase{
+import Principi.Reptes.Rummy.*;
+import Principi.Reptes.Rummy.ES.Llegir;
+import Principi.Reptes.Rummy.ES.Sortides;
+import Principi.Reptes.Rummy.Validacions.ValidacioEstandar;
+
+public class RummyBasic extends JocBase {
 
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
@@ -179,7 +184,7 @@ public class RummyBasic extends JocBase{
     private void reiniciarPartidaMa () {
         this.torn = 0;
         this.baralla = new Baralla();
-        this.tauler = new Tauler(new ValidacioEstandar());
+        iniciar();
         this.anteriorDescarte = null;
     }
 }

@@ -1,4 +1,6 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.Validacions;
+
+import Principi.Reptes.Rummy.Ma;
 
 public interface ValidarGrups {
     boolean sonNombreIguals (Ma ma);

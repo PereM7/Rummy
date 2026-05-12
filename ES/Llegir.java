@@ -1,4 +1,4 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.ES;
 
 import java.util.Scanner;
 

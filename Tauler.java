@@ -1,5 +1,7 @@
 package Principi.Reptes.Rummy;
 
+import Principi.Reptes.Rummy.Validacions.ValidarGrups;
+
 import java.util.ArrayList;
 
 public class Tauler {

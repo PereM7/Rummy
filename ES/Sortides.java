@@ -1,4 +1,9 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.ES;
+
+import Principi.Reptes.Rummy.Carta;
+import Principi.Reptes.Rummy.Jugador;
+import Principi.Reptes.Rummy.Ma;
+import Principi.Reptes.Rummy.Tauler;
 
 public class Sortides {
 

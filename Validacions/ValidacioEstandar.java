@@ -1,8 +1,12 @@
-package Principi.Reptes.Rummy;
+package Principi.Reptes.Rummy.Validacions;
+
+import Principi.Reptes.Rummy.Carta;
+import Principi.Reptes.Rummy.Ma;
+import Principi.Reptes.Rummy.Pal;
 
 import java.util.ArrayList;
 
-public class ValidacioEstandar implements ValidarGrups{
+public class ValidacioEstandar implements ValidarGrups {
 
     public boolean esGrupValid (Ma ma) {
         if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
