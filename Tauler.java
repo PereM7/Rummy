@@ -48,7 +48,7 @@ public class Tauler {
     }
 
     private boolean esUnGrupCorrecte (Ma ma) {
-        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 4) {
+        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
             Ma maOrdenada = ordenarCartesMa(ma);
 
             return sonNombreIguals(maOrdenada) || sonEscala(maOrdenada);
@@ -107,6 +107,15 @@ public class Tauler {
 
     public int getNombreGrups () {
         return this.grupsCartes.size();
+    }
+
+    public int sumaPuntsGrup (Ma ma) {
+        int sumaTotal = 0;
+        ArrayList<Carta> grup = ma.getMa();
+        for (Carta c: grup) {
+            sumaTotal = c.getValorCarta();
+        }
+        return sumaTotal;
     }
 
     public String toString() {
