@@ -103,6 +103,7 @@ public class RummyBasic extends JocBase{
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         while(Llegir.volCombinar() && !haGuanyat()) {
+            Sortides.imprimirMa(maJugador);
             if(!inserirMaTauler()) {
                 Sortides.errorAlCombinar();
             }else { Sortides.combinacioCompletada(); }

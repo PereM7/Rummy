@@ -14,7 +14,7 @@ public class ValidacioEstandar implements ValidarGrups{
     }
 
     private Ma ordenarCartesMa (Ma ma) {
-        ArrayList<Carta> grup = ma.getMa();
+        ArrayList<Carta> grup = new ArrayList<>(ma.getMa());
         Ma maOrdenada = new Ma();
 
         grup.sort((c1, c2) -> {
