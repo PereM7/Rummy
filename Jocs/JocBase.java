@@ -28,8 +28,39 @@ public abstract class JocBase {
         }
     }
 
+    protected Ma cartesCombinar (int cartesMaxim) {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma maCombinada = new Ma();
+        int index;
+        do {
+            index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
+            if (index != -1) {
+                maCombinada.afegirCarta(maJugador.getCarta(index));
+            }
+
+            if (maCombinada.getNombreCartes() == cartesMaxim) {
+                System.out.println("Maxim cartes seleccionades.");
+                break;
+            }
+
+        }while(index != -1);
+        return maCombinada;
+    }
+
+    public void eliminarCartesMaJugador(Ma ma) {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+
+        for (int i = ma.getNombreCartes() - 1; i >= 0; i--) {
+            for (int j = 0; j < maJugador.getNombreCartes(); j++) {
+                if (maJugador.getCarta(j).equals(ma.getCarta(i))) {
+                    maJugador.eliminarCarta(j);
+                    break;
+                }
+            }
+        }
+    }
+
     protected abstract void iniciar();
-    protected abstract Ma cartesCombinar (int cartesMaxim);
     protected abstract void tocaTorn ();
     protected abstract boolean haGuanyat();
     public abstract void jugarPartida ();

@@ -40,38 +40,6 @@ public class RummyBasic extends JocBase {
         maJugador.eliminarCarta(indexDescarte);
     }
 
-    protected Ma cartesCombinar (int cartesMaxim) {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-        Ma maCombinada = new Ma();
-        int index;
-        do {
-            index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
-            if (index != -1) {
-                maCombinada.afegirCarta(maJugador.getCarta(index));
-            }
-
-            if (maCombinada.getNombreCartes() == cartesMaxim) {
-                System.out.println("Maxim cartes seleccionades.");
-                break;
-            }
-
-        }while(index != -1);
-    return maCombinada;
-    }
-
-    private void eliminarCartesMaJugador(Ma ma) {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-
-        for (int i = ma.getNombreCartes() - 1; i >= 0; i--) {
-            for (int j = 0; j < maJugador.getNombreCartes(); j++) {
-                if (maJugador.getCarta(j).equals(ma.getCarta(i))) {
-                    maJugador.eliminarCarta(j);
-                    break;
-                }
-            }
-        }
-    }
-
     private boolean inserirMaTauler () {
         Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
         if (maCombinada.getNombreCartes() == 1) {
