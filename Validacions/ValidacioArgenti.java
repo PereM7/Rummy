@@ -6,18 +6,9 @@ import Principi.Reptes.Rummy.Pal;
 
 import java.util.ArrayList;
 
-public class ValidacioEstandar implements ValidarGrups {
+public class ValidacioArgenti implements ValidarGrups{
 
-    public boolean esGrupValid (Ma ma) {
-        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 4) {
-            Ma maOrdenada = ordenarCartesMa(ma);
 
-            return sonNombreIguals(maOrdenada) || sonEscala(maOrdenada);
-        }
-        return false;
-    }
-
-    //duplicat i no crec que necessari
     private Ma ordenarCartesMa (Ma ma) {
         ArrayList<Carta> grup = new ArrayList<>(ma.getMa());
         Ma maOrdenada = new Ma();
@@ -38,17 +29,18 @@ public class ValidacioEstandar implements ValidarGrups {
     public boolean sonEscala (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         int numComodins = 0;
-        int numBuits = 0;
         Ma cartesReals = new Ma();
         Pal palRef = null;
         int nombreAnterior = -1;
+        int numBuits = 0;
 
         for (Carta c: grup) {
-            if (c.getPal() != Pal.Comodi) {
+            if (c.getPal() != Pal.Comodi && c.getNombre() != 2) {
                 cartesReals.afegirCarta(c);
             } else { numComodins++; }
         }
-        if (cartesReals.getNombreCartes() == 0) { return false; }
+        if (numComodins > 1) { return false; }
+
         palRef = cartesReals.getCarta(0).getPal();
         for (int i = 1; i < cartesReals.getNombreCartes(); i++) {
             nombreAnterior = cartesReals.getCarta(i - 1).getNombre();
@@ -56,11 +48,19 @@ public class ValidacioEstandar implements ValidarGrups {
             int diferencia = nombreAnterior - nombreActual;
 
             if (cartesReals.getCarta(i).getPal() != palRef) { return false; }
-            if (diferencia > 1) {
-                numBuits += diferencia - 1;
-            }
-            else if (diferencia <= 0) { return false; };
+            if (diferencia <= 0) { return false; }
+
+            numBuits += (diferencia - 1);
         }
-        return numBuits <= numComodins;
+        return true;
+    }
+
+    public boolean esGrupValid (Ma ma) {
+        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
+            Ma maOrdenada = ordenarCartesMa(ma);
+
+            return sonNombreIguals(maOrdenada) || sonEscala(maOrdenada);
+        }
+        return false;
     }
 }
