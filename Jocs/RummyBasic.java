@@ -10,6 +10,7 @@ public class RummyBasic extends JocBase {
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
     private Tauler tauler;
+    private final int MAX_CARTES_COMBINAR = 4;
 
     public RummyBasic() {
         super();
@@ -39,10 +40,9 @@ public class RummyBasic extends JocBase {
         maJugador.eliminarCarta(indexDescarte);
     }
 
-    private Ma cartesCombinar () {
+    protected Ma cartesCombinar (int cartesMaxim) {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         Ma maCombinada = new Ma();
-        int cartesMaxim = 4;
         int index;
         do {
             index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
@@ -73,7 +73,7 @@ public class RummyBasic extends JocBase {
     }
 
     private boolean inserirMaTauler () {
-        Ma maCombinada = cartesCombinar();
+        Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
         if (maCombinada.getNombreCartes() == 1) {
             int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
             if (tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){

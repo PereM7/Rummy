@@ -29,6 +29,7 @@ public abstract class JocBase {
     }
 
     protected abstract void iniciar();
+    protected abstract Ma cartesCombinar (int cartesMaxim);
     protected abstract void tocaTorn ();
     protected abstract boolean haGuanyat();
     public abstract void jugarPartida ();
