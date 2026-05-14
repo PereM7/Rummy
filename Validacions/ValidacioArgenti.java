@@ -8,24 +8,6 @@ import java.util.ArrayList;
 
 public class ValidacioArgenti implements ValidarGrups{
 
-
-    private Ma ordenarCartesMa (Ma ma) {
-        ArrayList<Carta> grup = new ArrayList<>(ma.getMa());
-        Ma maOrdenada = new Ma();
-
-        grup.sort((c1, c2) -> {
-            if (c1.getPal() == Pal.Comodi) return 1;
-            if (c2.getPal() == Pal.Comodi) return -1;
-
-            return Integer.compare(c2.getNombre(), c1.getNombre());
-        });
-        for (Carta c : grup) {
-            maOrdenada.afegirCarta(c);
-        }
-        return maOrdenada;
-    }
-
-
     public boolean sonEscala (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         int numComodins = 0;
