@@ -68,4 +68,9 @@ public class Sortides {
         System.out.println("Per poder inserir necessites almenys una mà de 100 punts.");
     }
 
+    public static void imprimirCalculantPunts () {
+        System.out.println("Calculant punts de la partida...");
+        System.out.println("Restant punts de les cartes restants...");
+    }
+
 }

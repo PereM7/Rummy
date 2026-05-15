@@ -41,7 +41,7 @@ public class RummyArgenti extends JocBase{
         Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
         Jugador jugActual = players[torn % NUM_JUGADORS];
 
-        if ( jugActual.getEstaEnLlei() && !maSuperior100Punts(maCombinada) ) {
+        if ( (!jugActual.getHaJugatPrimeraMa() && jugActual.getEstaEnLlei()) && !maSuperior100Punts(maCombinada) ) {
             Sortides.errorEstarEnLlei();
             return false;
         } else {
@@ -124,27 +124,50 @@ public class RummyArgenti extends JocBase{
     }
 
     protected boolean haGuanyat() {
+        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        return maJugador.getNombreCartes() == 0;
+    }
+
+    protected boolean haGuanyatPartida() {
         Jugador guanyador = players[torn % NUM_JUGADORS];
         return guanyador.getPuntuacio() >= 1000;
+    }
+
+    private void reiniciarPartidaMa () {
+        this.torn = 0;
+        this.baralla = new Baralla();
+        iniciar();
+        this.anteriorDescarte = null;
+        reiniciarPrimeraMaJugada();
+    }
+
+    private void jugarMa () {
+        Jugador jugActual = null;
+        baralla.mesclarBaralla();
+        repartirMaInicialJugadors();
+        iniciarCartaDescarte();
+
+        while(!haGuanyat()) {
+            jugActual = players[torn % NUM_JUGADORS];
+            tocaTorn();
+            if (haGuanyat()) {
+                Sortides.imprimirGuanyadorMa(jugActual, jugActual.getPuntuacio());
+                break;
+            }
+            torn++;
+        }
+        Sortides.imprimirCalculantPunts();
+        restarPuntsCartesRestants(jugActual);
+        Sortides.imprimirTaulerPunts(players);
     }
 
     public void jugarPartida () {
         iniciarJugadors();
         do {
-            repartirMaInicialJugadors();
-            iniciarCartaDescarte();
-            tocaTorn();
-        }while(!haGuanyat());
-    }
-
-    public void jugarMa () {
-        baralla.mesclarBaralla();
-        repartirMaInicialJugadors();
-
-        while(!haGuanyat()) {
-            tocaTorn();
-
-        }
+            jugarMa();
+            assignarJugadorsEnLlei();
+            reiniciarPartidaMa();
+        }while(!haGuanyatPartida());
     }
 
     //Sistema punts
@@ -176,8 +199,22 @@ public class RummyArgenti extends JocBase{
         }
     }
 
+    private void reiniciarPrimeraMaJugada () {
+        for (Jugador j: players) {
+           j.setHaJugatPrimeraMa(false);
+        }
+    }
+
     private boolean maSuperior100Punts (Ma ma) {
         return ma.recomptePunts() >= 100;
+    }
+
+    private void restarPuntsCartesRestants (Jugador guanyador) {
+        for (Jugador j: players) {
+            if (j != guanyador) {
+                j.restarPuntuacio(j.getMa().recomptePunts());
+            }
+        }
     }
 
 
