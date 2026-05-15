@@ -38,7 +38,8 @@ public class Carta {
 
     public int getValorCarta () {
         if (PAL == Pal.Comodi) { return 50; }
-        else if (NOMBRE == 1 || NOMBRE == 2) { return 20; }
+        else if (NOMBRE == 2) { return 20; }
+        else if (NOMBRE == 1) { return 15; }
         else if (NOMBRE >= 8) { return 10; }
         else { return 5; }
     }

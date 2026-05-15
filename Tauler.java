@@ -40,15 +40,6 @@ public class Tauler {
         return this.grupsCartes.size();
     }
 
-    public int sumaPuntsGrup (Ma ma) {
-        int sumaTotal = 0;
-        ArrayList<Carta> grup = ma.getMa();
-        for (Carta c: grup) {
-            sumaTotal = c.getValorCarta();
-        }
-        return sumaTotal;
-    }
-
     public String toString() {
         String cadena = "";
         for(Ma m: grupsCartes) {

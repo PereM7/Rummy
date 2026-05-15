@@ -34,6 +34,14 @@ public class Ma {
         return punts;
     }
 
+    public int recomptePunts () {
+        int sumaTotal = 0;
+        for (Carta c: ma) {
+            sumaTotal += c.getValorCarta();
+        }
+        return sumaTotal;
+    }
+
     public String toString() {
         String cadena = "";
         int contador = 0;
