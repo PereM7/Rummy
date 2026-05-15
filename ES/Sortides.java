@@ -63,5 +63,9 @@ public class Sortides {
         System.out.println("Enhorabona !!!!");
     }
 
+    public static void errorEstarEnLlei () {
+        System.out.println("Error, estas en llei");
+        System.out.println("Per poder inserir necessites almenys una mà de 100 punts.");
+    }
 
 }
