@@ -1,11 +1,8 @@
 package Principi.Reptes.Rummy.Jocs;
 
-import Principi.Reptes.Rummy.Baralla;
-import Principi.Reptes.Rummy.Carta;
+import Principi.Reptes.Rummy.*;
 import Principi.Reptes.Rummy.ES.Llegir;
 import Principi.Reptes.Rummy.ES.Sortides;
-import Principi.Reptes.Rummy.Ma;
-import Principi.Reptes.Rummy.Tauler;
 import Principi.Reptes.Rummy.Validacions.ValidacioArgenti;
 
 
@@ -14,7 +11,7 @@ public class RummyArgenti extends JocBase{
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
     private Tauler tauler;
-    private final int MAX_CARTES_COMBINAR = 11;
+    private final int MAX_CARTES_COMBINAR = 13;
 
     public RummyArgenti () {
         super();
@@ -26,7 +23,7 @@ public class RummyArgenti extends JocBase{
     }
 
     protected Ma extreureMa () {
-        int nombreCartesMaInicial = 9;
+        int nombreCartesMaInicial = 12;
         Ma maExtreta = new Ma();
 
         for (int i = 0; i < nombreCartesMaInicial; i++) {
@@ -42,21 +39,37 @@ public class RummyArgenti extends JocBase{
 
     private boolean inserirMaTauler () {
         Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
-        if (maCombinada.getNombreCartes() == 1) {
-            int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
-            if (tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){
-                eliminarCartesMaJugador(maCombinada);
-                return true;
+        Jugador jugActual = players[torn % NUM_JUGADORS];
+
+        if ( jugActual.getEstaEnLlei() && !maSuperior100Punts(maCombinada) ) {
+            Sortides.errorEstarEnLlei();
+            return false;
+        } else {
+            if (maCombinada.getNombreCartes() == 1) {
+                int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
+                if (!tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){
+                    return false;
+                }
             }
+            else if (maCombinada.getNombreCartes() != 0) {
+                if (comprovarEscala12(maCombinada)) { castigPuntsEscala(); }
+                if (!tauler.afegirGrup(maCombinada)) {
+                    return false;
+                }
+            }
+            sumarPuntsJugadorActual(maCombinada.recomptePunts());
+            eliminarCartesMaJugador(maCombinada);
+            return true;
         }
-        else if (maCombinada.getNombreCartes() != 0) {
-            if (tauler.afegirGrup(maCombinada)) {
-                eliminarCartesMaJugador(maCombinada);
-                return true;
-            }
+    }
+
+    private boolean comprovarEscala12 (Ma ma) {
+        if(tauler.validador instanceof ValidacioArgenti validacio) {
+            return (validacio.sonEscala12(ma));
         }
         return false;
     }
+
 
     private void descartarCarta () {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
@@ -69,7 +82,9 @@ public class RummyArgenti extends JocBase{
 
     protected void tocaTorn () {
         Sortides.imprimirTorn(torn, players);
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Jugador jugActual = players[torn % NUM_JUGADORS];
+        Ma maJugador = jugActual.getMa();
+        boolean haInserit = false;
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         if (Llegir.agafarDescarteJugador()) {
@@ -88,15 +103,82 @@ public class RummyArgenti extends JocBase{
             Sortides.imprimirMa(maJugador);
             if(!inserirMaTauler()) {
                 Sortides.errorAlCombinar();
-            }else { Sortides.combinacioCompletada(); }
+            }
+            else {
+                haInserit = true;
+                Sortides.combinacioCompletada();
+            }
         }
+
         Sortides.imprimirMa(maJugador);
         if(!haGuanyat()){
             descartarCarta();
+            if (haGuanyat()) {
+                sumarPuntsJugadorActual(bonusFiMa(false));
+            }
+        } else if (haGuanyat() && !jugActual.getHaJugatPrimeraMa()){
+            sumarPuntsJugadorActual(bonusFiMa(true));
+        }
+
+        if (haInserit) { jugActual.setHaJugatPrimeraMa(true); }
+    }
+
+    protected boolean haGuanyat() {
+        Jugador guanyador = players[torn % NUM_JUGADORS];
+        return guanyador.getPuntuacio() >= 1000;
+    }
+
+    public void jugarPartida () {
+        iniciarJugadors();
+        do {
+            repartirMaInicialJugadors();
+            iniciarCartaDescarte();
+            tocaTorn();
+        }while(!haGuanyat());
+    }
+
+    public void jugarMa () {
+        baralla.mesclarBaralla();
+        repartirMaInicialJugadors();
+
+        while(!haGuanyat()) {
+            tocaTorn();
+
         }
     }
 
-    //Canviar
-    protected boolean haGuanyat() { return true; }
-    public void jugarPartida () {}
+    //Sistema punts
+    private void sumarPuntsJugadorActual (int punts) {
+        Jugador jugActual = players[torn % NUM_JUGADORS];
+        jugActual.sumarPuntuacio(punts);
+    }
+
+    private void castigPuntsEscala () {
+        int puntsRestar = 50;
+        for (Jugador j: players) {
+            if (j != players[torn % NUM_JUGADORS]) {
+                j.restarPuntuacio(puntsRestar);
+            }
+        }
+    }
+
+    private int bonusFiMa(boolean haFinalitzatAdalt) {
+        int sumaAdalt = 100;
+        int sumaAbaix = 50;
+        return haFinalitzatAdalt ? sumaAdalt : sumaAbaix;
+    }
+
+    private void assignarJugadorsEnLlei () {
+        for (Jugador j: players) {
+            if (j.getPuntuacio() >= 700) {
+                j.setEstaEnLlei(true);
+            }
+        }
+    }
+
+    private boolean maSuperior100Punts (Ma ma) {
+        return ma.recomptePunts() >= 100;
+    }
+
+
 }
