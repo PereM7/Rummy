@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ValidacioEstandar implements ValidarGrups {
 
     public boolean esGrupValid (Ma ma) {
-        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 4) {
+        if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
             Ma maOrdenada = ordenarCartesMa(ma);
 
             return sonNombreIguals(maOrdenada) || sonEscala(maOrdenada);
