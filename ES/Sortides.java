@@ -77,4 +77,8 @@ public class Sortides {
         System.out.println("La baralla és buida, no es pot agafar carta.");
     }
 
+    public static void introduirMaGin () {
+        System.out.println("Per verificar ara has d'agrupar les cartes de la teva ma:");
+    }
+
 }

@@ -106,4 +106,17 @@ public class Llegir {
         return index;
     }
 
+    public static boolean demanarSeguirInserint () {
+        String valor = "";
+        do {
+            System.out.println("Vols inserir un altre grup?(S/N)");
+            valor = sn.nextLine().toLowerCase();
+
+            if (!valor.equals("s") && !valor.equals("n")) {
+                System.out.println("Error, has d'introduir S o N.");
+            }
+        }while (!valor.equals("s") && !valor.equals("n"));
+        return valor.equals("s");
+    }
+
 }

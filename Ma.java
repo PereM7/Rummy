@@ -34,6 +34,18 @@ public class Ma {
         return punts;
     }
 
+    public int getPuntsGin () {
+        int punts = 0;
+        for (Carta c: ma) {
+            if (c.getNombre() > 10) {
+                punts += 10;
+            }else {
+                punts+= c.getNombre();
+            }
+        }
+        return punts;
+    }
+
     public int recomptePunts () {
         int sumaTotal = 0;
         for (Carta c: ma) {
