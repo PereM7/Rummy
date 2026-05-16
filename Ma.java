@@ -26,6 +26,14 @@ public class Ma {
         return this.ma;
     }
 
+    public Ma copiarMa() {
+        Ma copia = new Ma();
+        for(Carta c: ma) {
+            copia.afegirCarta(c);
+        }
+        return copia;
+    }
+
     public int getPunts () {
         int punts = 0;
         for (Carta c: ma) {

@@ -103,7 +103,7 @@ public class GinRummy extends JocBase{
 
     private void desglosarMa (Tauler tauler) {
         boolean bandera = false;
-        Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa().copiarMa();
         do {
             if (!inserirMaTauler(tauler)) {
                 players[torn % NUM_JUGADORS].setMa(copiMaJugador);
@@ -168,7 +168,7 @@ public class GinRummy extends JocBase{
             Ma maContrari = players[torn - 1 % NUM_JUGADORS].getMa();
 
             puntsTotals += maJugador.getPuntsGin();
-            puntsTotals -= maJugador.getPuntsGin();
+            puntsTotals -= maContrari.getPuntsGin();
 
         return puntsTotals;
     }
