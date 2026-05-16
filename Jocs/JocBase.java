@@ -9,7 +9,7 @@ import Principi.Reptes.Rummy.Ma;
 
 public abstract class JocBase {
 
-    protected final int NUM_JUGADORS;
+    protected int NUM_JUGADORS;
     protected Jugador[] players;
     protected int torn = 0;
 

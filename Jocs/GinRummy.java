@@ -14,6 +14,7 @@ public class GinRummy extends JocBase{
     private int MAX_CARTES_COMBINAR = 10;
 
     public GinRummy () {
+        NUM_JUGADORS = 2;
         iniciar();
     }
 
@@ -23,7 +24,7 @@ public class GinRummy extends JocBase{
     }
 
     protected void iniciarJugadors () {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < NUM_JUGADORS; i++) {
             players[i] = new Jugador(Llegir.demanarNom());
         }
     }
@@ -64,24 +65,9 @@ public class GinRummy extends JocBase{
         robarCarta(anteriorDescarte, baralla, maJugador);
 
         Sortides.imprimirMa(maJugador);
-        while(descartarCarta()) {
+        while(!descartarCarta()) {
             Sortides.errorMateixCartaDescarte();
         }
-
-        if (Llegir.demanarSiVolGinKnock()) {
-            if (Llegir.demanarGinQueFer() == 1) {
-                if (realitzarGin()) {
-
-                }
-                else {
-                    if (realitzarKnock()) {
-                        haPerdutDefensaKnock();
-                    }
-                }
-            }
-        }
-        //En cas de fer gin desglosar en grups per verificar.
-        //En cas de fer knock verificar grups i valor cartes restants.
     }
 
     private boolean inserirMaTauler (Tauler tauler) {
@@ -167,8 +153,7 @@ public class GinRummy extends JocBase{
             Ma maJugador = players[torn % NUM_JUGADORS].getMa();
             Ma maContrari = players[torn - 1 % NUM_JUGADORS].getMa();
 
-            puntsTotals += maJugador.getPuntsGin();
-            puntsTotals -= maContrari.getPuntsGin();
+            puntsTotals = maContrari.getPuntsGin() - maJugador.getPuntsGin();
 
         return puntsTotals;
     }
