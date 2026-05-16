@@ -8,6 +8,27 @@ import java.util.ArrayList;
 
 public class ValidacioArgenti implements ValidarGrups{
 
+    public boolean sonNombreIguals (Ma ma) {
+        ArrayList<Carta> grup = ma.getMa();
+        int nombreFix = -1;
+        for (Carta c: grup) {
+            if (c.getPal() != Pal.Comodi && c.getNombre() != 2) {
+                nombreFix = c.getNombre();
+                break;
+            }
+        }
+        if (nombreFix == -1) { return false; }
+        for (int i = 0; i < ma.getNombreCartes(); i++) {
+            if (grup.get(i).getPal() != Pal.Comodi && grup.get(i).getNombre() != 2) {
+                if (nombreFix != grup.get(i).getNombre()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
     public boolean sonEscala (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
         int numComodins = 0;
@@ -17,9 +38,9 @@ public class ValidacioArgenti implements ValidarGrups{
         int numBuits = 0;
 
         for (Carta c: grup) {
-            if (c.getPal() != Pal.Comodi && c.getNombre() != 2) {
-                cartesReals.afegirCarta(c);
-            } else { numComodins++; }
+            if (c.getPal() == Pal.Comodi || c.getNombre() == 2) {
+                numComodins++;
+            } else { cartesReals.afegirCarta(c); }
         }
         if (numComodins > 1) { return false; }
 
@@ -34,38 +55,13 @@ public class ValidacioArgenti implements ValidarGrups{
 
             numBuits += (diferencia - 1);
         }
-        return true;
+        return numBuits == numComodins;
     }
 
     public boolean sonEscala12 (Ma ma) {
-        ArrayList<Carta> grup = ma.getMa();
-        int numComodins = 0;
-        Ma cartesReals = new Ma();
-        Pal palRef = null;
-        int nombreAnterior = -1;
-        int numBuits = 0;
-
-        if (ma.getNombreCartes() != 12) { return false; }
-
-        for (Carta c: grup) {
-            if (c.getPal() != Pal.Comodi && c.getNombre() != 2) {
-                cartesReals.afegirCarta(c);
-            } else { numComodins++; }
-        }
-        if (numComodins > 1) { return false; }
-
-        palRef = cartesReals.getCarta(0).getPal();
-        for (int i = 1; i < cartesReals.getNombreCartes(); i++) {
-            nombreAnterior = cartesReals.getCarta(i - 1).getNombre();
-            int nombreActual = cartesReals.getCarta(i).getNombre();
-            int diferencia = nombreAnterior - nombreActual;
-
-            if (cartesReals.getCarta(i).getPal() != palRef) { return false; }
-            if (diferencia <= 0) { return false; }
-
-            numBuits += (diferencia - 1);
-        }
-        return true;
+        if (ma.getNombreCartes() == 12) {
+            return sonEscala(ma);
+        }else { return false; }
     }
 
     public boolean esGrupValid (Ma ma) {
