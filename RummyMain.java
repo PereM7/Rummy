@@ -1,11 +1,13 @@
 package Principi.Reptes.Rummy;
 
+import Principi.Reptes.Rummy.Jocs.GinRummy;
+import Principi.Reptes.Rummy.Jocs.JocBase;
 import Principi.Reptes.Rummy.Jocs.RummyArgenti;
 import Principi.Reptes.Rummy.Jocs.RummyBasic;
 
 public class RummyMain {
     public static void main(String[] args) {
-        RummyArgenti basic = new RummyArgenti();
+        JocBase basic = new GinRummy();
 
         basic.jugarPartida();
 
