@@ -23,12 +23,6 @@ public class GinRummy extends JocBase{
         taulerDescartes = new Tauler(new ValidacioEstandar());
     }
 
-    protected void iniciarJugadors () {
-        for (int i = 0; i < NUM_JUGADORS; i++) {
-            players[i] = new Jugador(Llegir.demanarNom());
-        }
-    }
-
     protected Ma extreureMa () {
         int nombreCartesMaInicial = 10;
         Ma maExtreta = new Ma();
@@ -131,21 +125,21 @@ public class GinRummy extends JocBase{
                 maDefensa.eliminarCarta(indexCarta);
             }
         }
-        return maAtac.getPuntsGin() < maDefensa.getPunts();
+        return maDefensa.getPuntsGin() < maAtac.getPunts();
     }
 
     private boolean realitzarGin () {
         Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa().copiarMa();
         Sortides.introduirMaGin();
-        ;
+
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         if (!desglosarMa(taulerKnock) || maJugador.getNombreCartes() > 0) {
-            Sortides.ginCorrecte();
-            return true;
+            players[torn % NUM_JUGADORS].setMa(copiMaJugador);
+            taulerKnock = new Tauler(new ValidacioEstandar());
+            return false;
         }
-        players[torn % NUM_JUGADORS].setMa(copiMaJugador);
-        taulerKnock = new Tauler(new ValidacioEstandar());
-        return false;
+        Sortides.ginCorrecte();
+        return true;
     }
 
     private int bonusFiMaGin (boolean haFetGin) {
