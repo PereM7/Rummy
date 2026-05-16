@@ -81,4 +81,20 @@ public class Sortides {
         System.out.println("Per verificar ara has d'agrupar les cartes de la teva ma:");
     }
 
+    public static void errorAlKnock () {
+        System.out.println("Error al fer knock, les cartes restants sumen més de 10 punts.");
+    }
+
+    public static void descartarMaKnock () {
+        System.out.println("Introdueix els grups formats:");
+    }
+
+    public static void ginCorrecte () {
+        System.out.println("Gin correcte!!!");
+    }
+
+    public static void errorMateixCartaDescarte () {
+        System.out.println("Error, és la mateixa carta que has agafat del descarte.");
+    }
+
 }
