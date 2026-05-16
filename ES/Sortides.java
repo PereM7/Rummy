@@ -15,6 +15,10 @@ public class Sortides {
         System.out.println(m.toString());
     }
 
+    public static void imprimirDescarte(Carta c) {
+        System.out.println("Carta descarte: "+ (c != null ? c.toString() : "Cap"));
+    }
+
     public static void imprimirTorn(int torn, Jugador[] players) {
         System.out.println("Torn del jugador " + players[torn % players.length].getNom());
     }

@@ -18,6 +18,11 @@ public abstract class JocBase {
         players = new Jugador[NUM_JUGADORS];
     }
 
+    protected JocBase (int numJugadorsFixes) {
+        this.NUM_JUGADORS = numJugadorsFixes;
+        this.players = new Jugador[this.NUM_JUGADORS];
+    }
+
     protected void iniciarJugadors () {
         for (int i = 0; i < NUM_JUGADORS; i++) {
             players[i] = new Jugador(Llegir.demanarNom());

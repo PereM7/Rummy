@@ -14,7 +14,7 @@ public class GinRummy extends JocBase{
     private int MAX_CARTES_COMBINAR = 10;
 
     public GinRummy () {
-        NUM_JUGADORS = 2;
+        super(2);
         iniciar();
     }
 
@@ -61,6 +61,7 @@ public class GinRummy extends JocBase{
         Jugador jugActual = players[torn % NUM_JUGADORS];
         Ma maJugador = jugActual.getMa();
 
+        Sortides.imprimirDescarte(anteriorDescarte);
         Sortides.imprimirMa(maJugador);
         robarCarta(anteriorDescarte, baralla, maJugador);
 
