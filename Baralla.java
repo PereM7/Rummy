@@ -44,6 +44,10 @@ public class Baralla {
         return c;
     }
 
+    public boolean esBuida () {
+        return baralla.isEmpty();
+    }
+
     public ArrayList<Carta> getBarralla () {
         return this.baralla;
     }

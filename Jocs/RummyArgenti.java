@@ -92,10 +92,14 @@ public class RummyArgenti extends JocBase{
                 maJugador.afegirCarta(anteriorDescarte);
             } else {
                 Sortides.errorCartaDescarteBuida();
-                maJugador.afegirCarta(baralla.extreureCarta());
+                if (!baralla.esBuida()){
+                    maJugador.afegirCarta(baralla.extreureCarta());
+                } else { Sortides.errorBarallaBuida(); }
             }
         } else {
-            maJugador.afegirCarta(baralla.extreureCarta());
+            if (!baralla.esBuida()){
+                maJugador.afegirCarta(baralla.extreureCarta());
+            } else { Sortides.errorBarallaBuida(); }
         }
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 

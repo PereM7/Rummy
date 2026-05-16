@@ -73,4 +73,8 @@ public class Sortides {
         System.out.println("Restant punts de les cartes restants...");
     }
 
+    public static void errorBarallaBuida () {
+        System.out.println("La baralla és buida, no es pot agafar carta.");
+    }
+
 }
