@@ -45,7 +45,7 @@ public class GinRummy extends JocBase{
 
     private boolean descartarCarta () {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-        int tamany = maJugador.getNombreCartes();
+        int tamany = maJugador.getNombreCartes() - 1;
         int indexDescarte = Llegir.demanarCartaDescartar(tamany);
 
         if (maJugador.getCarta(indexDescarte).equals(anteriorDescarte)) {
@@ -88,24 +88,30 @@ public class GinRummy extends JocBase{
         return true;
     }
 
-    private void desglosarMa (Tauler tauler) {
+    private boolean desglosarMa (Tauler tauler) {
         boolean bandera = false;
-        Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa().copiarMa();
         do {
             if (!inserirMaTauler(tauler)) {
-                players[torn % NUM_JUGADORS].setMa(copiMaJugador);
                 Sortides.errorAlCombinar();
+                return false;
             } else { Sortides.combinacioCompletada(); }
 
+            if (players[torn % NUM_JUGADORS].getMa().getNombreCartes() == 0) {
+                break;
+            }
             bandera = Llegir.demanarSeguirInserint();
-        }while(bandera || players[torn % NUM_JUGADORS].getMa().getNombreCartes() > 0);
+        }while(bandera);
+        return true;
     }
 
     private boolean realitzarKnock () {
+        Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa().copiarMa();
         Sortides.introduirMaGin();
-        desglosarMa(taulerKnock);
+
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-        if (maJugador.getPuntsGin() > 10) {
+        if (!desglosarMa(taulerKnock) || maJugador.getPuntsGin() > 10) {
+            players[torn % NUM_JUGADORS].setMa(copiMaJugador);
+            taulerKnock = new Tauler(new ValidacioEstandar());
             Sortides.errorAlKnock();
             return false;
         }
@@ -114,8 +120,8 @@ public class GinRummy extends JocBase{
 
     private boolean haPerdutDefensaKnock () {
         Ma maDefensa = players[torn % NUM_JUGADORS].getMa();
-        Ma maAtac = players[(torn - 1) % NUM_JUGADORS].getMa();
-        Sortides.imprimirTorn((torn - 1), players);
+        Ma maAtac = players[(torn + 1) % NUM_JUGADORS].getMa();
+        Sortides.imprimirTorn((torn + 1), players);
         Sortides.descartarMaKnock();
         desglosarMa(taulerDescartes);
         while (Llegir.demanarInserirCartaGrup() && maDefensa.getNombreCartes() > 0) {
@@ -129,13 +135,16 @@ public class GinRummy extends JocBase{
     }
 
     private boolean realitzarGin () {
+        Ma copiMaJugador = players[torn % NUM_JUGADORS].getMa().copiarMa();
         Sortides.introduirMaGin();
-        desglosarMa(taulerKnock);
+        ;
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-        if (maJugador.getNombreCartes() == 0) {
+        if (!desglosarMa(taulerKnock) || maJugador.getNombreCartes() > 0) {
             Sortides.ginCorrecte();
             return true;
         }
+        players[torn % NUM_JUGADORS].setMa(copiMaJugador);
+        taulerKnock = new Tauler(new ValidacioEstandar());
         return false;
     }
 
@@ -152,7 +161,7 @@ public class GinRummy extends JocBase{
     private int recomptePuntsGuanyador() {
         int puntsTotals = 0;
             Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-            Ma maContrari = players[torn - 1 % NUM_JUGADORS].getMa();
+            Ma maContrari = players[(torn + 1) % NUM_JUGADORS].getMa();
 
             puntsTotals = maContrari.getPuntsGin() - maJugador.getPuntsGin();
 
@@ -184,15 +193,15 @@ public class GinRummy extends JocBase{
                         jugActual.sumarPuntuacio(recomptePuntsGuanyador() + bonusFiMaGin(true));
                         break;
                     }
-                    else {
-                        if (realitzarKnock()) {
-                            torn++;
-                            if (haPerdutDefensaKnock()) {
-                                jugActual.sumarPuntuacio(recomptePuntsGuanyador());
-                                break;
-                            } else {
-                                jugActual.sumarPuntuacio(recomptePuntsGuanyador() + bonusFiMaKnock(true));
-                            }
+                }
+                else {
+                    if (realitzarKnock()) {
+                        torn++;
+                        if (haPerdutDefensaKnock()) {
+                            jugActual.sumarPuntuacio(recomptePuntsGuanyador());
+                            break;
+                        } else {
+                            jugActual.sumarPuntuacio(recomptePuntsGuanyador() + bonusFiMaKnock(true));
                         }
                     }
                 }
