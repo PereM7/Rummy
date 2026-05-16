@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Baralla {
-
-    private final int NOMBRE_CARTES_BARALLA = 104;
-    private ArrayList<Carta> baralla = new ArrayList<Carta>();
+    protected ArrayList<Carta> baralla = new ArrayList<Carta>();
 
     public Baralla() {
         iniciarBaralla();
         mesclarBaralla();
     }
 
-    private void iniciarBaralla () {
+    protected void iniciarBaralla () {
         iniciarPal(Pal.Diamant);
         iniciarPal(Pal.Cor);
         iniciarPal(Pal.Trevol);
@@ -21,7 +19,7 @@ public class Baralla {
         iniciarPal(Pal.Comodi);
     }
 
-    private void iniciarPal (Pal pal) {
+    protected void iniciarPal (Pal pal) {
         int nombreCartes = 13;
         if (pal == Pal.Comodi) {
             nombreCartes = 1;
