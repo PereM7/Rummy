@@ -10,6 +10,7 @@ public class ValidacioArgenti implements ValidarGrups{
 
     public boolean sonNombreIguals (Ma ma) {
         ArrayList<Carta> grup = ma.getMa();
+        ArrayList<Pal> palsVists = new ArrayList<>();
         int nombreFix = -1;
         for (Carta c: grup) {
             if (c.getPal() != Pal.Comodi && c.getNombre() != 2) {
@@ -23,6 +24,10 @@ public class ValidacioArgenti implements ValidarGrups{
                 if (nombreFix != grup.get(i).getNombre()) {
                     return false;
                 }
+                if (palsVists.contains(grup.get(i).getPal())) {
+                    return false;
+                }
+                palsVists.add(grup.get(i).getPal());
             }
         }
         return true;

@@ -87,20 +87,7 @@ public class RummyArgenti extends JocBase{
         boolean haInserit = false;
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
-        if (Llegir.agafarDescarteJugador()) {
-            if (anteriorDescarte != null) {
-                maJugador.afegirCarta(anteriorDescarte);
-            } else {
-                Sortides.errorCartaDescarteBuida();
-                if (!baralla.esBuida()){
-                    maJugador.afegirCarta(baralla.extreureCarta());
-                } else { Sortides.errorBarallaBuida(); }
-            }
-        } else {
-            if (!baralla.esBuida()){
-                maJugador.afegirCarta(baralla.extreureCarta());
-            } else { Sortides.errorBarallaBuida(); }
-        }
+        robarCarta (anteriorDescarte, baralla, maJugador);
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         while(Llegir.volCombinar() && !haGuanyat()) {

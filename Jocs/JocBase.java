@@ -1,6 +1,9 @@
 package Principi.Reptes.Rummy.Jocs;
 
+import Principi.Reptes.Rummy.Baralla;
+import Principi.Reptes.Rummy.Carta;
 import Principi.Reptes.Rummy.ES.Llegir;
+import Principi.Reptes.Rummy.ES.Sortides;
 import Principi.Reptes.Rummy.Jugador;
 import Principi.Reptes.Rummy.Ma;
 
@@ -57,6 +60,23 @@ public abstract class JocBase {
                     break;
                 }
             }
+        }
+    }
+
+    protected void robarCarta (Carta anteriorDescarte, Baralla baralla, Ma maJugador) {
+        if (Llegir.agafarDescarteJugador()) {
+            if (anteriorDescarte != null) {
+                maJugador.afegirCarta(anteriorDescarte);
+            } else {
+                Sortides.errorCartaDescarteBuida();
+                if (!baralla.esBuida()){
+                    maJugador.afegirCarta(baralla.extreureCarta());
+                } else { Sortides.errorBarallaBuida(); }
+            }
+        } else {
+            if (!baralla.esBuida()){
+                maJugador.afegirCarta(baralla.extreureCarta());
+            } else { Sortides.errorBarallaBuida(); }
         }
     }
 

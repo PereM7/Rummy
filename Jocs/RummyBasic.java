@@ -63,16 +63,7 @@ public class RummyBasic extends JocBase {
         Ma maJugador = players[torn % NUM_JUGADORS].getMa();
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
-        if (Llegir.agafarDescarteJugador()) {
-            if (anteriorDescarte != null) {
-                maJugador.afegirCarta(anteriorDescarte);
-            } else {
-                Sortides.errorCartaDescarteBuida();
-                maJugador.afegirCarta(baralla.extreureCarta());
-            }
-        } else {
-            maJugador.afegirCarta(baralla.extreureCarta());
-        }
+        robarCarta (anteriorDescarte, baralla, maJugador);
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         while(Llegir.volCombinar() && !haGuanyat()) {
