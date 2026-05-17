@@ -16,6 +16,7 @@ public class Rummikub extends JocBase{
         super();
         iniciar();
         mansFitxes = new Ma[NUM_JUGADORS];
+        iniciarJugadors();
     }
 
     protected void iniciar () {
@@ -226,7 +227,6 @@ public class Rummikub extends JocBase{
     }
 
     public void jugarPartida () {
-        iniciarJugadors();
         do {
 
             if (jugarMa()) {

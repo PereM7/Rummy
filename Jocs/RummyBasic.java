@@ -15,6 +15,7 @@ public class RummyBasic extends JocBase {
     public RummyBasic() {
         super();
         iniciar();
+        iniciarJugadors();
     }
 
     protected void iniciar() {
@@ -119,7 +120,6 @@ public class RummyBasic extends JocBase {
     }
 
     public void jugarPartida () {
-        iniciarJugadors();
 
         while (!hiHaAlgu101()) {
             if (jugarMa()) {

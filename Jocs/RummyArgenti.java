@@ -16,6 +16,7 @@ public class RummyArgenti extends JocBase{
     public RummyArgenti () {
         super();
         iniciar();
+        iniciarJugadors();
     }
 
     protected void iniciar () {
@@ -161,7 +162,6 @@ public class RummyArgenti extends JocBase{
     }
 
     public void jugarPartida () {
-        iniciarJugadors();
         do {
             if (jugarMa()) {
                 assignarJugadorsEnLlei();

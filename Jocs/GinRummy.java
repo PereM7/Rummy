@@ -16,6 +16,7 @@ public class GinRummy extends JocBase{
     public GinRummy () {
         super(2);
         iniciar();
+        iniciarJugadors();
     }
 
     protected void iniciar () {
@@ -231,7 +232,6 @@ public class GinRummy extends JocBase{
     }
 
     public void jugarPartida () {
-        iniciarJugadors();
         do {
             if (jugarMa()) {
                 reiniciarPartidaMa();
