@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public class Jugador {
+import java.io.Serializable;
+
+public class Jugador implements Serializable {
 
     private final String NOM;
     private int puntuacio = 0;

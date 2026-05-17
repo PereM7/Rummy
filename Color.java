@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public enum Color {
+import java.io.Serializable;
+
+public enum Color implements Serializable {
     Vermell("V"),
     Blau("B"),
     Grog("G"),

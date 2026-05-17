@@ -7,7 +7,9 @@ import Principi.Reptes.Rummy.ES.Sortides;
 import Principi.Reptes.Rummy.Jugador;
 import Principi.Reptes.Rummy.Ma;
 
-public abstract class JocBase {
+import java.io.Serializable;
+
+public abstract class JocBase implements Serializable {
 
     protected int NUM_JUGADORS;
     protected Jugador[] players;

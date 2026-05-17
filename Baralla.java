@@ -1,9 +1,10 @@
 package Principi.Reptes.Rummy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Baralla {
+public class Baralla implements Serializable {
     protected ArrayList<Carta> baralla = new ArrayList<Carta>();
 
     public Baralla() {

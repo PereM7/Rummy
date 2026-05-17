@@ -1,9 +1,10 @@
 package Principi.Reptes.Rummy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Bossa {
+public class Bossa implements Serializable {
     private ArrayList<Fitxa> bossa = new ArrayList<>();
 
     public Bossa () {

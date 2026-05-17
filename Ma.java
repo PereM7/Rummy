@@ -1,8 +1,9 @@
 package Principi.Reptes.Rummy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ma<T> {
+public class Ma<T> implements Serializable {
 
     private ArrayList<T> ma = new ArrayList<T>();
 

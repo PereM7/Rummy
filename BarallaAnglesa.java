@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public class BarallaAnglesa extends Baralla{
+import java.io.Serializable;
+
+public class BarallaAnglesa extends Baralla implements Serializable {
 
     public BarallaAnglesa() {
         super();

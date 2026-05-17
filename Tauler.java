@@ -2,9 +2,10 @@ package Principi.Reptes.Rummy;
 
 import Principi.Reptes.Rummy.Validacions.ValidarGrups;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tauler<T> {
+public class Tauler<T> implements Serializable {
 
     private ArrayList<Ma<T>> grupsCartes = new ArrayList<>();
     public ValidarGrups<T> validador;

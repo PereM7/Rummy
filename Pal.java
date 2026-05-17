@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public enum Pal {
+import java.io.Serializable;
+
+public enum Pal implements Serializable {
     Diamant("D"),
     Pica("P"),
     Cor("C"),

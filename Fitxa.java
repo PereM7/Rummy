@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public class Fitxa {
+import java.io.Serializable;
+
+public class Fitxa implements Serializable {
     private final int NOMBRE;
     private final Color COLOR;
 

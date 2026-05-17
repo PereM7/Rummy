@@ -1,6 +1,8 @@
 package Principi.Reptes.Rummy;
 
-public class Carta {
+import java.io.Serializable;
+
+public class Carta implements Serializable {
 
     private final int NOMBRE;
     private final Pal PAL;
