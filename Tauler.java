@@ -72,6 +72,13 @@ public class Tauler<T> {
         return true;
     }
 
+    public boolean verificarEstat () {
+        for (Ma<T> grup : grupsCartes) {
+            if (!validador.esGrupValid(grup)) return false;
+        }
+        return true;
+    }
+
     public String toString() {
         String cadena = "";
         for(Ma<T> m: grupsCartes) {

@@ -123,4 +123,16 @@ public class Sortides {
         System.out.println("No has inserit cap grup o fitxa.");
         System.out.println("Agafant fitxa...");
     }
+
+    public static void imprimirOnTreureFitxa () {
+        System.out.println("D'on vols treure la fitxa?");
+    }
+
+    public static void imprimirOnPosarFitxa () {
+        System.out.println("On vols posar-la?");
+    }
+
+    public static void errorTaulerInvalid () {
+        System.out.println("Error, tauler invalid.");
+    }
 }

@@ -171,4 +171,18 @@ public class Llegir {
         } while (!valor.equals("g") && !valor.equals("k"));
         return valor.equals("g") ? 1 : 2;
     }
+
+    public static int demanarQueFerRummikub() {
+        int valor = 0;
+        do {
+            System.out.println("Què vols fer?");
+            System.out.println("1 - Afegir fitxa de la mà a un grup del tauler");
+            System.out.println("2 - Crear un grup nou amb fitxes de la mà");
+            System.out.println("3 - Moure una fitxa entre grups del tauler");
+            System.out.println("0 - Acabar torn");
+            valor = sn.nextInt();
+            sn.nextLine();
+        } while (valor < 0 || valor > 3);
+        return valor;
+    }
 }
