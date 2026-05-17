@@ -3,6 +3,7 @@ package Principi.Reptes.Rummy;
 import Principi.Reptes.Rummy.Jocs.JocBase;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class GestorPartides {
     private static final String DIRECTORI = "partides_guardades/";
@@ -24,5 +25,16 @@ public class GestorPartides {
             System.out.println("Error al carregar partida: " + e.getMessage());
             return null;
         }
+    }
+
+    public static ArrayList<String> llistarPartides() {
+        ArrayList<String> partides = new ArrayList<>();
+        File dir = new File(DIRECTORI);
+        if (dir.exists()) {
+            for (File f : dir.listFiles()) {
+                    partides.add(f.getName());
+                }
+            }
+        return partides;
     }
 }
