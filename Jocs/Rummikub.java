@@ -118,20 +118,55 @@ public class Rummikub extends JocBase{
             if (!inserirPrimeraMa()) {
                 Sortides.errorPrimeraMa();
                 maJugador.afegirCarta(bossa.extreureFitxa());
-            } else { Sortides.combinacioCompletada(); }
-        } else {
-            //Canviar pel sistema de moviment
-            while (Llegir.volCombinar() && !haGuanyat()) {
-                Sortides.imprimirMaFitxes(maJugador);
-                if (!inserirMaTauler()) {
-                    Sortides.errorAlCombinar();
-                } else {
-                    haInserit = true;
-                    Sortides.combinacioCompletada();
-                }
+            } else {
+                haInserit = true;
+                jugActual.setHaJugatPrimeraMa(true);
+                Sortides.combinacioCompletada();
             }
+        } else {
+            Tauler<Fitxa> copiTauler = tauler.copiarTauler();
+            int valor;
+            do {
+                Sortides.imprimirEstatRummikub(maJugador, tauler);
+                valor = Llegir.demanarQueFerRummikub();
+
+                switch(valor) {
+                    case 1 -> {
+                        int indexFitxa = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
+                        int indexGrup  = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups() - 1);
+                        tauler.afegirCarta(maJugador.getCarta(indexFitxa), indexGrup);
+                        maJugador.eliminarCarta(indexFitxa);
+                        haInserit = true;
+                    }
+                    case 2 -> {
+                        if (inserirMaTauler()) {
+                            haInserit = true;
+                            Sortides.combinacioCompletada();
+                        } else {
+                            Sortides.errorAlCombinar();
+                        }
+                    }
+                    case 3 -> {
+                        Sortides.imprimirOnTreureFitxa();
+                        int grupOrigen = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups() - 1);
+                        int indexFitxa = Llegir.demanarCartaCombinar(tauler.getGrup(grupOrigen).getNombreCartes() - 1);
+
+                        Sortides.imprimirOnPosarFitxa();
+                        int grupDesti  = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups() - 1);
+                        Fitxa fitxa = tauler.extreureFitxaGrup(grupOrigen, indexFitxa);
+                        tauler.afegirCarta(fitxa, grupDesti);
+                    }
+                }
+            } while (valor != 0 && !haGuanyat());
+
+
             if (!haInserit) {
                 Sortides.noHaverInserit();
+                maJugador.afegirCarta(bossa.extreureFitxa());
+            }
+            else if (!tauler.verificarEstat()) {
+                Sortides.errorTaulerInvalid();
+                tauler.restaurarEstat(copiTauler);
                 maJugador.afegirCarta(bossa.extreureFitxa());
             }
         }
