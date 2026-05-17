@@ -23,4 +23,14 @@ public class Fitxa {
             return "["+COLOR.getDescripcio()+"]";
         }
     }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof Fitxa) {
+            Fitxa c = (Fitxa) obj;
+            if (c.getNombre() == this.NOMBRE && c.getColor() == this.COLOR) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

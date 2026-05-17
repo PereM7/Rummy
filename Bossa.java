@@ -32,7 +32,7 @@ public class Bossa {
         }
     }
 
-    public Fitxa extreureCarta () {
+    public Fitxa extreureFitxa () {
         Fitxa f = bossa.getLast();
         bossa.removeLast();
         return f;
