@@ -87,11 +87,15 @@ public class Rummikub extends JocBase{
     }
 
     private boolean inserirPrimeraMa () {
+        Tauler<Fitxa> copiTauler = tauler.copiarTauler();
+        Ma<Fitxa> copiMa = mansFitxes[torn % NUM_JUGADORS].copiarMa();
         int punts = 0;
         boolean bandera = false;
         do {
             if (!inserirMaTauler()) {
                 Sortides.errorAlCombinar();
+                tauler.restaurarEstat(copiTauler);
+                mansFitxes[torn % NUM_JUGADORS] = copiMa;
                 return false;
             } else {
                 Ma<Fitxa> maCombinada = tauler.getGrup(tauler.getNombreGrups() - 1);
@@ -104,7 +108,12 @@ public class Rummikub extends JocBase{
             }
             bandera = Llegir.demanarSeguirInserint();
         }while(bandera);
-        return punts >= 30;
+        if (punts < 30) {
+            tauler.restaurarEstat(copiTauler);
+            mansFitxes[torn % NUM_JUGADORS] = copiMa;
+            return false;
+        }
+        return true;
     }
 
     protected void tocaTorn () {
@@ -134,7 +143,7 @@ public class Rummikub extends JocBase{
                     case 1 -> {
                         int indexFitxa = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
                         int indexGrup  = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups() - 1);
-                        tauler.afegirCarta(maJugador.getCarta(indexFitxa), indexGrup);
+                        tauler.getGrup(indexGrup).afegirCarta(maJugador.getCarta(indexFitxa));
                         maJugador.eliminarCarta(indexFitxa);
                         haInserit = true;
                     }
