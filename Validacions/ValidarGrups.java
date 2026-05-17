@@ -2,9 +2,10 @@ package Principi.Reptes.Rummy.Validacions;
 
 import Principi.Reptes.Rummy.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface ValidarGrups<T> {
+public interface ValidarGrups<T> extends Serializable {
 
      boolean sonNombreIguals (Ma<T> ma);
 

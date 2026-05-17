@@ -19,7 +19,7 @@ public class GestorPartides {
     }
 
     public static JocBase carregarPartida(String nomFitxer) {
-        try (ObjectInputStream ois = new ObjectInputStream( new FileInputStream(DIRECTORI + nomFitxer + ".dat" ))) {
+        try (ObjectInputStream ois = new ObjectInputStream( new FileInputStream(DIRECTORI + nomFitxer))) {
             return (JocBase) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error al carregar partida: " + e.getMessage());
