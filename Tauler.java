@@ -44,6 +44,34 @@ public class Tauler<T> {
         return grupsCartes.get(index);
     }
 
+
+    public T extreureFitxaGrup (int indexGrup, int indexFitxa) {
+        Ma<T> grup = grupsCartes.get(indexGrup);
+        T fitxa = grup.getCarta(indexFitxa);
+        grup.eliminarCarta(indexFitxa);
+        if (grup.getNombreCartes() == 0) {
+            grupsCartes.remove(indexGrup);
+        }
+        return fitxa;
+    }
+
+    public Tauler<T> copiarTauler () {
+        Tauler<T> copiTauler = new Tauler<>(validador);
+        for (Ma<T> t: grupsCartes) {
+            copiTauler.afegirGrup(t.copiarMa());
+        }
+        return copiTauler;
+    }
+
+    public boolean restaurarEstat (Tauler<T> tauler) {
+        this.grupsCartes.clear();
+        for (int i = 0; i < tauler.getNombreGrups(); i++) {
+
+            if(!afegirGrup(tauler.getGrup(i))) { return false; }
+        }
+        return true;
+    }
+
     public String toString() {
         String cadena = "";
         for(Ma<T> m: grupsCartes) {
