@@ -40,6 +40,10 @@ public class Tauler<T> {
         return this.grupsCartes.size();
     }
 
+    public Ma<T> getGrup (int index) {
+        return grupsCartes.get(index);
+    }
+
     public String toString() {
         String cadena = "";
         for(Ma<T> m: grupsCartes) {

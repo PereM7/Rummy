@@ -1,9 +1,6 @@
 package Principi.Reptes.Rummy.ES;
 
-import Principi.Reptes.Rummy.Carta;
-import Principi.Reptes.Rummy.Jugador;
-import Principi.Reptes.Rummy.Ma;
-import Principi.Reptes.Rummy.Tauler;
+import Principi.Reptes.Rummy.*;
 
 public class Sortides {
 
@@ -15,12 +12,29 @@ public class Sortides {
         System.out.println(m.toString());
     }
 
+    public static void imprimirMaFitxes(Ma<Fitxa> m) {
+        System.out.println(m.toString());
+    }
+
     public static void imprimirDescarte(Carta c) {
         System.out.println("Carta descarte: "+ (c != null ? c.toString() : "Cap"));
     }
 
     public static void imprimirTorn(int torn, Jugador[] players) {
         System.out.println("Torn del jugador " + players[torn % players.length].getNom());
+    }
+
+    public static void imprimirEstatRummikub (Ma<Fitxa> ma, Tauler tauler) {
+        System.out.println("Tauler Actual:");
+        if (tauler.getNombreGrups() == 0) {
+            System.out.println("[ El tauler està buit ]");
+        } else {
+            imprimirTauler(tauler);
+        }
+        System.out.println();
+        System.out.print("Ma actual: ");
+        imprimirMaFitxes(ma);
+        System.out.println();
     }
 
     public static void imprimirEstatPartida (Ma<Carta> ma, Tauler tauler, Carta descarte) {
@@ -101,4 +115,12 @@ public class Sortides {
         System.out.println("Error, és la mateixa carta que has agafat del descarte.");
     }
 
+    public static void errorPrimeraMa () {
+        System.out.println("Error, la primera mà que s'insereix ha de superar els 30 punts.");
+    }
+
+    public static void noHaverInserit () {
+        System.out.println("No has inserit cap grup o fitxa.");
+        System.out.println("Agafant fitxa...");
+    }
 }
