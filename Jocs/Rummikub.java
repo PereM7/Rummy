@@ -129,7 +129,6 @@ public class Rummikub extends JocBase{
         if (!jugActual.getHaJugatPrimeraMa()) {
             if (!inserirPrimeraMa()) {
                 Sortides.errorPrimeraMa();
-                maJugador.afegirCarta(bossa.extreureFitxa());
             } else {
                 haInserit = true;
                 jugActual.setHaJugatPrimeraMa(true);
@@ -253,9 +252,8 @@ public class Rummikub extends JocBase{
     private void restarPuntsPerdedors () {
         int indexGuanyador = (torn % NUM_JUGADORS);
         for (int i = 0; i < NUM_JUGADORS; i++) {
-            Ma<Fitxa> maJugador = mansFitxes[(torn + i) % NUM_JUGADORS];
             if (i != indexGuanyador) {
-                players[i].restarPuntuacio(calcularPunts(maJugador));
+                players[i].restarPuntuacio(calcularPunts(mansFitxes[i]));
             }
         }
     }
