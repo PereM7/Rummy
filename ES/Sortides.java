@@ -11,7 +11,7 @@ public class Sortides {
         System.out.println(t.toString());
     }
 
-    public static void imprimirMa(Ma m) {
+    public static void imprimirMa(Ma<Carta> m) {
         System.out.println(m.toString());
     }
 
@@ -23,7 +23,7 @@ public class Sortides {
         System.out.println("Torn del jugador " + players[torn % players.length].getNom());
     }
 
-    public static void imprimirEstatPartida (Ma ma, Tauler tauler, Carta descarte) {
+    public static void imprimirEstatPartida (Ma<Carta> ma, Tauler tauler, Carta descarte) {
         System.out.println("Tauler Actual:");
         if (tauler.getNombreGrups() == 0) {
             System.out.println("[ El tauler està buit ]");

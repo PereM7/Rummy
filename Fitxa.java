@@ -15,4 +15,12 @@ public class Fitxa {
     public Color getColor () {
         return this.COLOR;
     }
+
+    public String toString(){
+        if(COLOR != Color.Comodi){
+            return "["+NOMBRE+COLOR.getDescripcio()+"]";
+        }else {
+            return "["+COLOR.getDescripcio()+"]";
+        }
+    }
 }

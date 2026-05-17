@@ -9,7 +9,7 @@ public class RummyBasic extends JocBase {
 
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
-    private Tauler tauler;
+    private Tauler<Carta> tauler;
     private final int MAX_CARTES_COMBINAR = 4;
 
     public RummyBasic() {
@@ -18,12 +18,12 @@ public class RummyBasic extends JocBase {
     }
 
     protected void iniciar() {
-        tauler = new Tauler(new ValidacioEstandar());
+        tauler = new Tauler<>(new ValidacioEstandar());
     }
 
-    protected Ma extreureMa () {
+    protected Ma<Carta> extreureMa () {
         int nombreCartesMaInicial = 14;
-        Ma maExtreta = new Ma();
+        Ma<Carta> maExtreta = new Ma<>();
 
         for (int i = 1; i < nombreCartesMaInicial; i++) {
             maExtreta.afegirCarta(baralla.extreureCarta());
@@ -32,7 +32,7 @@ public class RummyBasic extends JocBase {
     }
 
     private void descartarCarta () {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
         int tamany = maJugador.getNombreCartes();
         int indexDescarte = Llegir.demanarCartaDescartar(tamany);
 
@@ -41,7 +41,7 @@ public class RummyBasic extends JocBase {
     }
 
     private boolean inserirMaTauler () {
-        Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
+        Ma<Carta> maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
         if (maCombinada.getNombreCartes() == 1) {
             int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
             if (tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){
@@ -60,7 +60,7 @@ public class RummyBasic extends JocBase {
 
     protected void tocaTorn () {
         Sortides.imprimirTorn(torn, players);
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
         robarCarta (anteriorDescarte, baralla, maJugador);
@@ -79,15 +79,15 @@ public class RummyBasic extends JocBase {
     }
 
     protected boolean haGuanyat() {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
         return maJugador.getNombreCartes() == 0;
     }
 
     private int recomptePuntsGuanyador() {
         int puntsTotals = 0;
         for (int i = 0; i < NUM_JUGADORS; i++) {
-            Ma maJugador = players[(torn + i) % NUM_JUGADORS].getMa();
-            puntsTotals += maJugador.getPunts();
+            Ma<Carta> maJugador = players[(torn + i) % NUM_JUGADORS].getMa();
+            puntsTotals += calcularPunts(maJugador);
         }
         return puntsTotals;
     }
@@ -139,6 +139,15 @@ public class RummyBasic extends JocBase {
         }
         return false;
     }
+
+    private int calcularPunts(Ma<Carta> ma) {
+        int punts = 0;
+        for (int i = 0; i < ma.getNombreCartes(); i++) {
+            punts += ma.getCarta(i).getNombre();
+        }
+        return punts;
+    }
+
 
     private void reiniciarPartidaMa () {
         this.torn = 0;

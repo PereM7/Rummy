@@ -6,7 +6,7 @@ import Principi.Reptes.Rummy.Pal;
 
 import java.util.ArrayList;
 
-public class ValidacioEstandar implements ValidarGrups {
+public class ValidacioEstandar implements ValidarGrups<Carta> {
 
     public boolean esGrupValid (Ma ma) {
         if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
@@ -17,11 +17,11 @@ public class ValidacioEstandar implements ValidarGrups {
         return false;
     }
 
-    public boolean sonEscala (Ma ma) {
+    public boolean sonEscala (Ma<Carta> ma) {
         ArrayList<Carta> grup = ma.getMa();
         int numComodins = 0;
         int numBuits = 0;
-        Ma cartesReals = new Ma();
+        Ma<Carta> cartesReals = new Ma<>();
         Pal palRef = null;
         int nombreAnterior = -1;
 
@@ -44,5 +44,31 @@ public class ValidacioEstandar implements ValidarGrups {
             else if (diferencia <= 0) { return false; };
         }
         return numBuits <= numComodins;
+    }
+
+    public boolean sonNombreIguals(Ma<Carta> ma) {
+        ArrayList<Carta> grup = ma.getMa();
+        ArrayList<Pal> palsVists = new ArrayList<>();
+        int nombreFix = -1;
+        for (Carta c: grup) {
+            if (c.getPal() != Pal.Comodi) {
+                nombreFix = c.getNombre();
+                break;
+            }
+        }
+
+        if (nombreFix == -1) { return false; }
+        for (int i = 1; i < ma.getNombreCartes(); i++) {
+            if (grup.get(i).getPal() != Pal.Comodi) {
+                if (nombreFix != grup.get(i).getNombre()) {
+                    return false;
+                }
+                if (palsVists.contains(grup.get(i).getPal())) {
+                    return false;
+                }
+                palsVists.add(grup.get(i).getPal());
+            }
+        }
+        return true;
     }
 }

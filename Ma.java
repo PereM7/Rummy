@@ -2,9 +2,9 @@ package Principi.Reptes.Rummy;
 
 import java.util.ArrayList;
 
-public class Ma {
+public class Ma<T> {
 
-    private ArrayList<Carta> ma = new ArrayList<Carta>();
+    private ArrayList<T> ma = new ArrayList<T>();
 
     public Ma () {}
 
@@ -12,60 +12,32 @@ public class Ma {
         return this.ma.size();
     }
 
-    public Carta getCarta(int index) {
+    public T getCarta(int index) {
         return this.ma.get(index);
     }
-    public void afegirCarta (Carta c) {
+    public void afegirCarta (T c) {
         ma.add(c);
     }
     public void eliminarCarta (int index) {
         ma.remove(index);
     }
 
-    public ArrayList<Carta> getMa () {
+    public ArrayList<T> getMa () {
         return this.ma;
     }
 
-    public Ma copiarMa() {
-        Ma copia = new Ma();
-        for(Carta c: ma) {
+    public Ma<T> copiarMa() {
+        Ma<T> copia = new Ma<>();
+        for(T c: ma) {
             copia.afegirCarta(c);
         }
         return copia;
     }
 
-    public int getPunts () {
-        int punts = 0;
-        for (Carta c: ma) {
-            punts+= c.getNombre();
-        }
-        return punts;
-    }
-
-    public int getPuntsGin () {
-        int punts = 0;
-        for (Carta c: ma) {
-            if (c.getNombre() > 10) {
-                punts += 10;
-            }else {
-                punts+= c.getNombre();
-            }
-        }
-        return punts;
-    }
-
-    public int recomptePunts () {
-        int sumaTotal = 0;
-        for (Carta c: ma) {
-            sumaTotal += c.getValorCarta();
-        }
-        return sumaTotal;
-    }
-
     public String toString() {
         String cadena = "";
         int contador = 0;
-        for (Carta c: ma) {
+        for (T c: ma) {
             cadena = cadena + contador + ":" + c.toString();
             if (!c.equals(ma.getLast())) {
                 cadena = cadena + ",";

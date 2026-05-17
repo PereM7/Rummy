@@ -29,16 +29,16 @@ public abstract class JocBase {
         }
     }
 
-    protected abstract Ma extreureMa ();
+    protected abstract Ma<Carta> extreureMa ();
     protected void repartirMaInicialJugadors () {
         for (int i = 0; i < NUM_JUGADORS; i++) {
             players[i].setMa(extreureMa());
         }
     }
 
-    protected Ma cartesCombinar (int cartesMaxim) {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
-        Ma maCombinada = new Ma();
+    protected Ma<Carta> cartesCombinar (int cartesMaxim) {
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maCombinada = new Ma<>();
         int index;
         do {
             index = Llegir.demanarCartaCombinar(maJugador.getNombreCartes() - 1);
@@ -55,8 +55,8 @@ public abstract class JocBase {
         return maCombinada;
     }
 
-    public void eliminarCartesMaJugador(Ma ma) {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+    public void eliminarCartesMaJugador(Ma<Carta> ma) {
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
 
         for (int i = ma.getNombreCartes() - 1; i >= 0; i--) {
             for (int j = 0; j < maJugador.getNombreCartes(); j++) {
@@ -68,7 +68,7 @@ public abstract class JocBase {
         }
     }
 
-    protected void robarCarta (Carta anteriorDescarte, Baralla baralla, Ma maJugador) {
+    protected void robarCarta (Carta anteriorDescarte, Baralla baralla, Ma<Carta> maJugador) {
         if (Llegir.agafarDescarteJugador()) {
             if (anteriorDescarte != null) {
                 maJugador.afegirCarta(anteriorDescarte);

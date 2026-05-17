@@ -1,42 +1,16 @@
 package Principi.Reptes.Rummy.Validacions;
 
-import Principi.Reptes.Rummy.Carta;
-import Principi.Reptes.Rummy.Ma;
-import Principi.Reptes.Rummy.Pal;
+import Principi.Reptes.Rummy.*;
 
 import java.util.ArrayList;
 
-public interface ValidarGrups {
+public interface ValidarGrups<T> {
 
-    default boolean sonNombreIguals (Ma ma) {
-        ArrayList<Carta> grup = ma.getMa();
-        ArrayList<Pal> palsVists = new ArrayList<>();
-        int nombreFix = -1;
-        for (Carta c: grup) {
-            if (c.getPal() != Pal.Comodi) {
-                nombreFix = c.getNombre();
-                break;
-            }
-        }
+     boolean sonNombreIguals (Ma<T> ma);
 
-        if (nombreFix == -1) { return false; }
-        for (int i = 1; i < ma.getNombreCartes(); i++) {
-            if (grup.get(i).getPal() != Pal.Comodi) {
-                if (nombreFix != grup.get(i).getNombre()) {
-                    return false;
-                }
-                if (palsVists.contains(grup.get(i).getPal())) {
-                    return false;
-                }
-                palsVists.add(grup.get(i).getPal());
-            }
-        }
-        return true;
-    }
-
-    default  Ma ordenarCartesMa (Ma ma) {
+    default  Ma<Carta> ordenarCartesMa (Ma<Carta> ma) {
         ArrayList<Carta> grup = new ArrayList<>(ma.getMa());
-        Ma maOrdenada = new Ma();
+        Ma<Carta> maOrdenada = new Ma<>();
 
         grup.sort((c1, c2) -> {
             if (c1.getPal() == Pal.Comodi) return 1;
@@ -50,6 +24,6 @@ public interface ValidarGrups {
         return maOrdenada;
     }
 
-    boolean sonEscala (Ma ma);
-    boolean esGrupValid (Ma ma);
+    boolean sonEscala (Ma<T> ma);
+    boolean esGrupValid (Ma<T> ma);
 }

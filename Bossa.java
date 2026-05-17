@@ -7,7 +7,8 @@ public class Bossa {
     private ArrayList<Fitxa> bossa = new ArrayList<>();
 
     public Bossa () {
-
+        iniciarBossa();
+        mesclarBossa();
     }
 
     private void iniciarBossa () {

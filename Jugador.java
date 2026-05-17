@@ -4,7 +4,7 @@ public class Jugador {
 
     private final String NOM;
     private int puntuacio = 0;
-    private Ma ma = new Ma();
+    private Ma<Carta> ma = new Ma<>();
     private boolean haJugatPrimeraMa = false;
     private boolean estaEnLlei = false;
 
@@ -27,10 +27,10 @@ public class Jugador {
         return this.puntuacio;
     }
 
-    public void setMa (Ma ma) {
+    public void setMa (Ma<Carta> ma) {
         this.ma = ma;
     }
-    public Ma getMa () {
+    public Ma<Carta> getMa () {
         return this.ma;
     }
 

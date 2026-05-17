@@ -6,9 +6,9 @@ import Principi.Reptes.Rummy.Pal;
 
 import java.util.ArrayList;
 
-public class ValidacioArgenti implements ValidarGrups{
+public class ValidacioArgenti implements ValidarGrups<Carta> {
 
-    public boolean sonNombreIguals (Ma ma) {
+    public boolean sonNombreIguals (Ma<Carta> ma) {
         ArrayList<Carta> grup = ma.getMa();
         ArrayList<Pal> palsVists = new ArrayList<>();
         int nombreFix = -1;
@@ -34,10 +34,10 @@ public class ValidacioArgenti implements ValidarGrups{
     }
 
 
-    public boolean sonEscala (Ma ma) {
+    public boolean sonEscala (Ma<Carta> ma) {
         ArrayList<Carta> grup = ma.getMa();
         int numComodins = 0;
-        Ma cartesReals = new Ma();
+        Ma<Carta> cartesReals = new Ma<>();
         Pal palRef = null;
         int nombreAnterior = -1;
         int numBuits = 0;
@@ -63,15 +63,15 @@ public class ValidacioArgenti implements ValidarGrups{
         return numBuits == numComodins;
     }
 
-    public boolean sonEscala12 (Ma ma) {
+    public boolean sonEscala12 (Ma<Carta> ma) {
         if (ma.getNombreCartes() == 12) {
             return sonEscala(ma);
         }else { return false; }
     }
 
-    public boolean esGrupValid (Ma ma) {
+    public boolean esGrupValid (Ma<Carta> ma) {
         if (ma.getNombreCartes() >= 3 && ma.getNombreCartes() <= 13) {
-            Ma maOrdenada = ordenarCartesMa(ma);
+            Ma<Carta> maOrdenada = ordenarCartesMa(ma);
 
             return sonNombreIguals(maOrdenada) || sonEscala(maOrdenada);
         }

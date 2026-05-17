@@ -4,16 +4,16 @@ import Principi.Reptes.Rummy.Validacions.ValidarGrups;
 
 import java.util.ArrayList;
 
-public class Tauler {
+public class Tauler<T> {
 
-    private ArrayList<Ma> grupsCartes = new ArrayList<Ma>();
-    public ValidarGrups validador;
+    private ArrayList<Ma<T>> grupsCartes = new ArrayList<>();
+    public ValidarGrups<T> validador;
 
-    public Tauler (ValidarGrups validador) {
+    public Tauler (ValidarGrups<T> validador) {
         this.validador = validador;
     }
 
-    public boolean afegirGrup (Ma ma) {
+    public boolean afegirGrup (Ma<T> ma) {
         if (validador.esGrupValid(ma)) {
             this.grupsCartes.add(ma);
             return true;
@@ -21,9 +21,9 @@ public class Tauler {
         return false;
     }
 
-    public boolean afegirCarta (Carta carta, int numGrup){
-        Ma novaMa = grupsCartes.get(numGrup);
-        novaMa.afegirCarta(carta);
+    public boolean afegirCarta (T t, int numGrup){
+        Ma<T> novaMa = grupsCartes.get(numGrup);
+        novaMa.afegirCarta(t);
 
         if(validador.esGrupValid(novaMa)){
             this.grupsCartes.remove(numGrup);
@@ -42,7 +42,7 @@ public class Tauler {
 
     public String toString() {
         String cadena = "";
-        for(Ma m: grupsCartes) {
+        for(Ma<T> m: grupsCartes) {
             cadena = cadena + m.toString() + ",\n";
         }
         return cadena;

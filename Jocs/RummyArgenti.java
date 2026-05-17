@@ -10,7 +10,7 @@ public class RummyArgenti extends JocBase{
 
     private Baralla baralla = new Baralla();
     private Carta anteriorDescarte;
-    private Tauler tauler;
+    private Tauler<Carta> tauler;
     private final int MAX_CARTES_COMBINAR = 13;
 
     public RummyArgenti () {
@@ -19,12 +19,12 @@ public class RummyArgenti extends JocBase{
     }
 
     protected void iniciar () {
-        tauler = new Tauler(new ValidacioArgenti());
+        tauler = new Tauler<>(new ValidacioArgenti());
     }
 
-    protected Ma extreureMa () {
+    protected Ma<Carta> extreureMa () {
         int nombreCartesMaInicial = 12;
-        Ma maExtreta = new Ma();
+        Ma<Carta> maExtreta = new Ma<>();
 
         for (int i = 0; i < nombreCartesMaInicial; i++) {
             maExtreta.afegirCarta(baralla.extreureCarta());
@@ -38,7 +38,7 @@ public class RummyArgenti extends JocBase{
 
 
     private boolean inserirMaTauler () {
-        Ma maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
+        Ma<Carta> maCombinada = cartesCombinar(MAX_CARTES_COMBINAR);
         Jugador jugActual = players[torn % NUM_JUGADORS];
 
         if ( (!jugActual.getHaJugatPrimeraMa() && jugActual.getEstaEnLlei()) && !maSuperior100Punts(maCombinada) ) {
@@ -57,13 +57,13 @@ public class RummyArgenti extends JocBase{
                     return false;
                 }
             }
-            sumarPuntsJugadorActual(maCombinada.recomptePunts());
+            sumarPuntsJugadorActual(recomptePunts(maCombinada));
             eliminarCartesMaJugador(maCombinada);
             return true;
         }
     }
 
-    private boolean comprovarEscala12 (Ma ma) {
+    private boolean comprovarEscala12 (Ma<Carta> ma) {
         if(tauler.validador instanceof ValidacioArgenti validacio) {
             return (validacio.sonEscala12(ma));
         }
@@ -72,7 +72,7 @@ public class RummyArgenti extends JocBase{
 
 
     private void descartarCarta () {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
         int tamany = maJugador.getNombreCartes();
         int indexDescarte = Llegir.demanarCartaDescartar(tamany);
 
@@ -83,7 +83,7 @@ public class RummyArgenti extends JocBase{
     protected void tocaTorn () {
         Sortides.imprimirTorn(torn, players);
         Jugador jugActual = players[torn % NUM_JUGADORS];
-        Ma maJugador = jugActual.getMa();
+        Ma<Carta> maJugador = jugActual.getMa();
         boolean haInserit = false;
         Sortides.imprimirEstatPartida(maJugador, tauler, anteriorDescarte);
 
@@ -115,7 +115,7 @@ public class RummyArgenti extends JocBase{
     }
 
     protected boolean haGuanyat() {
-        Ma maJugador = players[torn % NUM_JUGADORS].getMa();
+        Ma<Carta> maJugador = players[torn % NUM_JUGADORS].getMa();
         return maJugador.getNombreCartes() == 0;
     }
 
@@ -196,14 +196,22 @@ public class RummyArgenti extends JocBase{
         }
     }
 
-    private boolean maSuperior100Punts (Ma ma) {
-        return ma.recomptePunts() >= 100;
+    private boolean maSuperior100Punts (Ma<Carta> ma) {
+        return recomptePunts(ma) >= 100;
+    }
+
+    public int recomptePunts (Ma<Carta> ma) {
+        int sumaTotal = 0;
+        for (int i = 0; i < ma.getNombreCartes(); i++) {
+            sumaTotal += ma.getCarta(i).getValorCarta();
+        }
+        return sumaTotal;
     }
 
     private void restarPuntsCartesRestants (Jugador guanyador) {
         for (Jugador j: players) {
             if (j != guanyador) {
-                j.restarPuntuacio(j.getMa().recomptePunts());
+                j.restarPuntuacio(recomptePunts(j.getMa()));
             }
         }
     }
