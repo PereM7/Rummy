@@ -71,6 +71,7 @@ public class Rummikub extends JocBase{
 
     private boolean inserirMaTauler () {
         Ma<Fitxa> maCombinada = fitxesCombinar();
+        if (maCombinada.getNombreCartes() == 0) { return false; }
         if (maCombinada.getNombreCartes() == 1) {
             int indexGrup = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups());
             if (!tauler.afegirCarta(maCombinada.getCarta(0), indexGrup)){
@@ -123,6 +124,8 @@ public class Rummikub extends JocBase{
         boolean haInserit = false;
 
         Sortides.imprimirEstatRummikub(maJugador, tauler);
+        Tauler<Fitxa> copiTauler = tauler.copiarTauler();
+        Ma<Fitxa> copiMa = mansFitxes[torn % NUM_JUGADORS].copiarMa();
         if (!jugActual.getHaJugatPrimeraMa()) {
             if (!inserirPrimeraMa()) {
                 Sortides.errorPrimeraMa();
@@ -133,8 +136,6 @@ public class Rummikub extends JocBase{
                 Sortides.combinacioCompletada();
             }
         } else {
-            Tauler<Fitxa> copiTauler = tauler.copiarTauler();
-            Ma<Fitxa> copiMa = mansFitxes[torn % NUM_JUGADORS].copiarMa();
             int valor;
             do {
                 Sortides.imprimirEstatRummikub(maJugador, tauler);
@@ -164,22 +165,21 @@ public class Rummikub extends JocBase{
                         Sortides.imprimirOnPosarFitxa();
                         int grupDesti  = Llegir.demanarIndexGrupInserir(tauler.getNombreGrups() - 1);
                         Fitxa fitxa = tauler.extreureFitxaGrup(grupOrigen, indexFitxa);
-                        tauler.afegirCarta(fitxa, grupDesti);
+                        tauler.getGrup(grupDesti).afegirCarta(fitxa);
                     }
                 }
             } while (valor != 0 && !haGuanyat());
 
-
-            if (!haInserit) {
-                Sortides.noHaverInserit();
-                maJugador.afegirCarta(bossa.extreureFitxa());
-            }
-            else if (!tauler.verificarEstat()) {
-                Sortides.errorTaulerInvalid();
-                tauler.restaurarEstat(copiTauler);
-                mansFitxes[torn % NUM_JUGADORS] = copiMa;
-                maJugador.afegirCarta(bossa.extreureFitxa());
-            }
+        }
+        if (!haInserit) {
+            Sortides.noHaverInserit();
+            mansFitxes[torn % NUM_JUGADORS].afegirCarta(bossa.extreureFitxa());
+        }
+        else if (!tauler.verificarEstat()) {
+            Sortides.errorTaulerInvalid();
+            tauler.restaurarEstat(copiTauler);
+            mansFitxes[torn % NUM_JUGADORS] = copiMa;
+            mansFitxes[torn % NUM_JUGADORS].afegirCarta(bossa.extreureFitxa());
         }
 
     }
