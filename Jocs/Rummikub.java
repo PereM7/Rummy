@@ -134,6 +134,7 @@ public class Rummikub extends JocBase{
             }
         } else {
             Tauler<Fitxa> copiTauler = tauler.copiarTauler();
+            Ma<Fitxa> copiMa = mansFitxes[torn % NUM_JUGADORS].copiarMa();
             int valor;
             do {
                 Sortides.imprimirEstatRummikub(maJugador, tauler);
@@ -176,6 +177,7 @@ public class Rummikub extends JocBase{
             else if (!tauler.verificarEstat()) {
                 Sortides.errorTaulerInvalid();
                 tauler.restaurarEstat(copiTauler);
+                mansFitxes[torn % NUM_JUGADORS] = copiMa;
                 maJugador.afegirCarta(bossa.extreureFitxa());
             }
         }
@@ -183,15 +185,48 @@ public class Rummikub extends JocBase{
     }
 
     protected boolean haGuanyat() {
-        for (Ma<Fitxa> m : mansFitxes) {
-            if (m.getNombreCartes() == 0) {
-                return true;
-            }
+        return mansFitxes[torn % NUM_JUGADORS].getNombreCartes() == 0;
+    }
+
+    private boolean haGuanyatPartida() {
+        for (Jugador j : players) {
+            if (j.getPuntuacio() >= 100) return true;
         }
         return false;
     }
 
-    public void jugarPartida () {}
+    private void reiniciarPartidaMa () {
+        this.torn = 0;
+        this.bossa = new Bossa();
+        iniciar();
+    }
+
+    public void jugarMa() {
+        bossa.mesclarBossa();
+        repartirMaInicialJugadors();
+
+        while (!haGuanyat()) {
+            tocaTorn();
+            if (haGuanyat()) {
+                int punts = recomptePuntsGuanyador();
+                players[torn % NUM_JUGADORS].sumarPuntuacio(punts);
+                restarPuntsPerdedors();
+                Sortides.imprimirGuanyadorMa(players[torn % NUM_JUGADORS], punts);
+                break;
+            }
+            torn++;
+        }
+        Sortides.imprimirTaulerPunts(players);
+    }
+
+    public void jugarPartida () {
+        iniciarJugadors();
+        do {
+            jugarMa();
+            reiniciarPartidaMa();
+        }while(!haGuanyatPartida());
+        Sortides.imprimirGuanyadorTotal(jugadorMesPunts());
+    }
 
 
     private int calcularPunts(Ma<Fitxa> ma) {
@@ -204,5 +239,32 @@ public class Rummikub extends JocBase{
             }
         }
         return punts;
+    }
+
+    private int recomptePuntsGuanyador() {
+        int puntsTotals = 0;
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            Ma<Fitxa> maJugador = mansFitxes[i];
+            puntsTotals += calcularPunts(maJugador);
+        }
+        return puntsTotals;
+    }
+
+    private void restarPuntsPerdedors () {
+        int indexGuanyador = (torn % NUM_JUGADORS);
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            Ma<Fitxa> maJugador = mansFitxes[(torn + i) % NUM_JUGADORS];
+            if (i != indexGuanyador) {
+                players[i].restarPuntuacio(calcularPunts(maJugador));
+            }
+        }
+    }
+
+    private Jugador jugadorMesPunts() {
+        Jugador millor = players[0];
+        for (Jugador j : players) {
+            if (j.getPuntuacio() > millor.getPuntuacio()) millor = j;
+        }
+        return millor;
     }
 }
