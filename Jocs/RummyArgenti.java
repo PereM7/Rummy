@@ -132,7 +132,7 @@ public class RummyArgenti extends JocBase{
         reiniciarPrimeraMaJugada();
     }
 
-    private void jugarMa () {
+    private boolean jugarMa () {
         Jugador jugActual = null;
         baralla.mesclarBaralla();
         repartirMaInicialJugadors();
@@ -146,18 +146,27 @@ public class RummyArgenti extends JocBase{
                 break;
             }
             torn++;
+
+            if (Llegir.demanarGuardarPartida()) {
+                String nom = Llegir.demanarNomGuardar();
+                GestorPartides.guardarPartida(this, nom);
+                return false;
+            }
         }
+
         Sortides.imprimirCalculantPunts();
         restarPuntsCartesRestants(jugActual);
         Sortides.imprimirTaulerPunts(players);
+        return true;
     }
 
     public void jugarPartida () {
         iniciarJugadors();
         do {
-            jugarMa();
-            assignarJugadorsEnLlei();
-            reiniciarPartidaMa();
+            if (jugarMa()) {
+                assignarJugadorsEnLlei();
+                reiniciarPartidaMa();
+            }
         }while(!haGuanyatPartida());
     }
 

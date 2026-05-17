@@ -171,7 +171,7 @@ public class GinRummy extends JocBase{
         return false;
     }
 
-    private void jugarMa () {
+    private boolean jugarMa () {
         Jugador jugActual = null;
         baralla.mesclarBaralla();
         repartirMaInicialJugadors();
@@ -201,10 +201,17 @@ public class GinRummy extends JocBase{
                 }
             }
             torn ++;
+
+            if (Llegir.demanarGuardarPartida()) {
+                String nom = Llegir.demanarNomGuardar();
+                GestorPartides.guardarPartida(this, nom);
+                return false;
+            }
         }
         Sortides.imprimirGuanyadorMa(jugActual, jugActual.getPuntuacio());
         Sortides.imprimirCalculantPunts();
         Sortides.imprimirTaulerPunts(players);
+        return true;
     }
 
     private void reiniciarPartidaMa() {
@@ -226,8 +233,9 @@ public class GinRummy extends JocBase{
     public void jugarPartida () {
         iniciarJugadors();
         do {
-            jugarMa();
-            reiniciarPartidaMa();
+            if (jugarMa()) {
+                reiniciarPartidaMa();
+            }
         }while(!haGuanyat());
     }
 

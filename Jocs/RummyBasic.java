@@ -92,7 +92,7 @@ public class RummyBasic extends JocBase {
         return puntsTotals;
     }
 
-    private void jugarMa () {
+    private boolean jugarMa () {
         baralla.mesclarBaralla();
         repartirMaInicialJugadors();
 
@@ -105,16 +105,26 @@ public class RummyBasic extends JocBase {
                 break;
             }
             torn++;
+
+            if (Llegir.demanarGuardarPartida()) {
+                String nom = Llegir.demanarNomGuardar();
+                GestorPartides.guardarPartida(this, nom);
+                return false;
+            }
         }
+
+
         Sortides.imprimirTaulerPunts(players);
+        return true;
     }
 
     public void jugarPartida () {
         iniciarJugadors();
 
         while (!hiHaAlgu101()) {
-            jugarMa();
-            reiniciarPartidaMa();
+            if (jugarMa()) {
+                reiniciarPartidaMa();
+            }
         }
         Sortides.imprimirGuanyadorTotal(jugadorMesPunts());
     }

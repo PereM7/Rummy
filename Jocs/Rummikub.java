@@ -200,7 +200,7 @@ public class Rummikub extends JocBase{
         iniciar();
     }
 
-    public void jugarMa() {
+    public boolean jugarMa() {
         bossa.mesclarBossa();
         repartirMaInicialJugadors();
 
@@ -214,15 +214,24 @@ public class Rummikub extends JocBase{
                 break;
             }
             torn++;
+
+            if (Llegir.demanarGuardarPartida()) {
+                String nom = Llegir.demanarNomGuardar();
+                GestorPartides.guardarPartida(this, nom);
+                return false;
+            }
         }
         Sortides.imprimirTaulerPunts(players);
+        return true;
     }
 
     public void jugarPartida () {
         iniciarJugadors();
         do {
-            jugarMa();
-            reiniciarPartidaMa();
+
+            if (jugarMa()) {
+                reiniciarPartidaMa();
+            }
         }while(!haGuanyatPartida());
         Sortides.imprimirGuanyadorTotal(jugadorMesPunts());
     }

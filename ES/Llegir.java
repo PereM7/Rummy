@@ -232,4 +232,24 @@ public class Llegir {
         } while (valor < 0 || valor > 4);
         return valor;
     }
+
+    public static boolean demanarGuardarPartida() {
+        String valor = "";
+        do {
+            System.out.println("Vols guardar la partida?(S/N)");
+            valor = sn.nextLine().toLowerCase();
+
+            if (!valor.equals("s") && !valor.equals("n")) {
+                System.out.println("Error, has d'introduir S o N.");
+            }
+        }while (!valor.equals("s") && !valor.equals("n"));
+        return valor.equals("s");
+    }
+
+    public static String demanarNomGuardar () {
+        String valor = "";
+        System.out.println("Introdueix el nom amb que vols guardar la partida: ");
+        valor = sn.nextLine();
+        return valor;
+    }
 }
