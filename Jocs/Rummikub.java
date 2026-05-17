@@ -2,6 +2,7 @@ package Principi.Reptes.Rummy.Jocs;
 
 import Principi.Reptes.Rummy.*;
 import Principi.Reptes.Rummy.ES.Llegir;
+import Principi.Reptes.Rummy.ES.Sortides;
 import Principi.Reptes.Rummy.Validacions.ValidacioRummikub;
 
 public class Rummikub extends JocBase{
@@ -85,10 +86,79 @@ public class Rummikub extends JocBase{
         return true;
     }
 
-    protected void tocaTorn () {}
+    private boolean inserirPrimeraMa () {
+        int punts = 0;
+        boolean bandera = false;
+        do {
+            if (!inserirMaTauler()) {
+                Sortides.errorAlCombinar();
+                return false;
+            } else {
+                Ma<Fitxa> maCombinada = tauler.getGrup(tauler.getNombreGrups() - 1);
+                punts += calcularPunts(maCombinada);
+                Sortides.combinacioCompletada();
+            }
 
-    protected boolean haGuanyat() { return false; }
+            if (mansFitxes[torn % NUM_JUGADORS].getNombreCartes() == 0) {
+                break;
+            }
+            bandera = Llegir.demanarSeguirInserint();
+        }while(bandera);
+        return punts >= 30;
+    }
+
+    protected void tocaTorn () {
+        Sortides.imprimirTorn(torn, players);
+        Jugador jugActual = players[torn % NUM_JUGADORS];
+        Ma<Fitxa> maJugador = mansFitxes[torn % NUM_JUGADORS];
+        boolean haInserit = false;
+
+        Sortides.imprimirEstatRummikub(maJugador, tauler);
+        if (!jugActual.getHaJugatPrimeraMa()) {
+            if (!inserirPrimeraMa()) {
+                Sortides.errorPrimeraMa();
+                maJugador.afegirCarta(bossa.extreureFitxa());
+            } else { Sortides.combinacioCompletada(); }
+        } else {
+            //Canviar pel sistema de moviment
+            while (Llegir.volCombinar() && !haGuanyat()) {
+                Sortides.imprimirMaFitxes(maJugador);
+                if (!inserirMaTauler()) {
+                    Sortides.errorAlCombinar();
+                } else {
+                    haInserit = true;
+                    Sortides.combinacioCompletada();
+                }
+            }
+            if (!haInserit) {
+                Sortides.noHaverInserit();
+                maJugador.afegirCarta(bossa.extreureFitxa());
+            }
+        }
+
+    }
+
+    protected boolean haGuanyat() {
+        for (Ma<Fitxa> m : mansFitxes) {
+            if (m.getNombreCartes() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void jugarPartida () {}
 
+
+    private int calcularPunts(Ma<Fitxa> ma) {
+        int punts = 0;
+        for (int i = 0; i < ma.getNombreCartes(); i++) {
+            if (ma.getCarta(i).getColor() == Color.Comodi) {
+                punts += 50;
+            } else {
+                punts += ma.getCarta(i).getNombre();
+            }
+        }
+        return punts;
+    }
 }
