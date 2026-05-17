@@ -1,5 +1,6 @@
 package Principi.Reptes.Rummy.ES;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Llegir {
@@ -183,6 +184,52 @@ public class Llegir {
             valor = sn.nextInt();
             sn.nextLine();
         } while (valor < 0 || valor > 3);
+        return valor;
+    }
+
+    public static int demanarOpcioInicial () {
+        int valor = 0;
+        do {
+            System.out.println("Què vols fer?");
+            System.out.println("1 - Nova Partida");
+            System.out.println("2 - Carregar Partida");
+            valor = sn.nextInt();
+            sn.nextLine();
+        }while (valor < 1 || valor > 2);
+        return valor;
+    }
+
+    public static String demanarNomPartida (ArrayList<String> partides) {
+        String valor = "";
+        boolean bandera = false;
+        do {
+            for (String s: partides) {
+                System.out.println("- " + s);
+            }
+            System.out.println("Quina partida vols carregar?");
+            valor = sn.nextLine();
+
+            for (String s: partides) {
+                if (valor.equals(s)) {
+                    bandera = true;
+                    break;
+                }
+            }
+        }while (!bandera);
+        return valor;
+    }
+
+    public static int demanarTipusJoc () {
+        int valor = 0;
+        do {
+            System.out.println("Quin joc vols jugar?");
+            System.out.println("1 - Rummy Bàsic");
+            System.out.println("2 - Rummy Argentí");
+            System.out.println("3 - Gin Rummy");
+            System.out.println("4 - Rummikub");
+            valor = sn.nextInt();
+            sn.nextLine();
+        } while (valor < 0 || valor > 4);
         return valor;
     }
 }
